@@ -1,3 +1,4 @@
 /target/
+#for IntelliJ
 /.idea/
 /profileSiteApp.iml
