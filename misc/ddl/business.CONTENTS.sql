@@ -1,11 +1,11 @@
 ﻿DROP TABLE IF EXISTS business.CONTENTS;
 CREATE TABLE business.CONTENTS(
-    CONTENTS_ID char(10)  NOT NULL,
-    CONTENTS_VAL varchar(140)  NOT NULL,
-    UP_DT char(17) ,
-    UP_NM varchar(20) ,
-    RG_DT char(17) ,
-    RG_NM varchar(20) ,
+    CONTENTS_ID char(10) NOT NULL,
+    CONTENTS_VAL varchar(140) NOT NULL,
+    UP_DT char(17),
+    UP_NM varchar(20),
+    RG_DT char(17),
+    RG_NM varchar(20),
     CONSTRAINT pk_CONTENTS PRIMARY KEY (CONTENTS_ID)
 );
 COMMENT ON COLUMN business.CONTENTS.CONTENTS_ID IS 'コンテンツID';

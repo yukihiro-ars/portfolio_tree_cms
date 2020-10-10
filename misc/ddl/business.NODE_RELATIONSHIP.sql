@@ -1,11 +1,11 @@
 ﻿DROP TABLE IF EXISTS business.NODE_RELATIONSHIP;
 CREATE TABLE business.NODE_RELATIONSHIP(
-    PARENT_NODE_ID char(10)  NOT NULL,
-    CHILD_NODE_ID char(10)  NOT NULL,
-    UP_DT char(17) ,
-    UP_NM varchar(20) ,
-    RG_DT char(17) ,
-    RG_NM varchar(20) ,
+    PARENT_NODE_ID char(10) NOT NULL,
+    CHILD_NODE_ID char(10) NOT NULL,
+    UP_DT char(17),
+    UP_NM varchar(20),
+    RG_DT char(17),
+    RG_NM varchar(20),
     CONSTRAINT pk_NODE_RELATIONSHIP PRIMARY KEY (PARENT_NODE_ID,CHILD_NODE_ID)
 );
 COMMENT ON COLUMN business.NODE_RELATIONSHIP.PARENT_NODE_ID IS '親ノードID';
