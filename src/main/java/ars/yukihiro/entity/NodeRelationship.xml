@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+        version="2.0">
+
+    <entity class="ars.yukihiro.entity.NodeRelationship">
+        <table name="node_relationship" schema="business" catalog="ars"/>
+        <id-class class="ars.yukihiro.entity.NodeRelationshipPK"/>
+        <attributes>
+            <id name="parentNodeId">
+                <column name="parent_node_id" length="10"/>
+            </id>
+            <id name="childNodeId">
+                <column name="child_node_id" length="10"/>
+            </id>
+            <basic name="upDt">
+                <column name="up_dt" nullable="false" length="17"/>
+            </basic>
+            <basic name="upNm">
+                <column name="up_nm" nullable="false" length="20"/>
+            </basic>
+            <basic name="rgDt">
+                <column name="rg_dt" nullable="false" length="17"/>
+            </basic>
+            <basic name="rgNm">
+                <column name="rg_nm" nullable="false" length="20"/>
+            </basic>
+        </attributes>
+    </entity>
+</entity-mappings>
