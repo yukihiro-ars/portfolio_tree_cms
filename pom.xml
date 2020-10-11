@@ -21,6 +21,12 @@
   </properties>
 
   <dependencies>
+    <!-- javax.persistence -->
+    <dependency>
+      <groupId>javax.persistence</groupId>
+      <artifactId>persistence-api</artifactId>
+      <version>1.0</version>
+    </dependency>
     <!-- https://stackoverflow.com/questions/1051640/correct-way-to-add-external-jars-lib-jar-to-an-intellij-idea-project -->
     <!-- https://mvnrepository.com/artifact/org.springframework/spring-jcl -->
     <dependency>
