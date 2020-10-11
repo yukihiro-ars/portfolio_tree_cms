@@ -10,7 +10,6 @@ public class NodeController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String view(){
-        System.out.println("node");
         return "node";
     }
 }

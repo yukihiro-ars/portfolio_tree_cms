@@ -10,7 +10,6 @@ public class TreeController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String view(){
-        System.out.println("tree");
         return "tree";
     }
 }

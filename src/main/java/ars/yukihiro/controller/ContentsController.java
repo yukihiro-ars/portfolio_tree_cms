@@ -10,7 +10,6 @@ public class ContentsController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String view(){
-        System.out.println("contents");
         return "contents";
     }
 }
