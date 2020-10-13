@@ -1,6 +1,7 @@
 package ars.yukihiro.entity;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "node_relationship", schema = "business", catalog = "ars")
@@ -77,27 +78,17 @@ public class NodeRelationship {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         NodeRelationship that = (NodeRelationship) o;
-
-        if (parentNodeId != null ? !parentNodeId.equals(that.parentNodeId) : that.parentNodeId != null) return false;
-        if (childNodeId != null ? !childNodeId.equals(that.childNodeId) : that.childNodeId != null) return false;
-        if (upDt != null ? !upDt.equals(that.upDt) : that.upDt != null) return false;
-        if (upNm != null ? !upNm.equals(that.upNm) : that.upNm != null) return false;
-        if (rgDt != null ? !rgDt.equals(that.rgDt) : that.rgDt != null) return false;
-        if (rgNm != null ? !rgNm.equals(that.rgNm) : that.rgNm != null) return false;
-
-        return true;
+        return Objects.equals(parentNodeId, that.parentNodeId) &&
+                Objects.equals(childNodeId, that.childNodeId) &&
+                Objects.equals(upDt, that.upDt) &&
+                Objects.equals(upNm, that.upNm) &&
+                Objects.equals(rgDt, that.rgDt) &&
+                Objects.equals(rgNm, that.rgNm);
     }
 
     @Override
     public int hashCode() {
-        int result = parentNodeId != null ? parentNodeId.hashCode() : 0;
-        result = 31 * result + (childNodeId != null ? childNodeId.hashCode() : 0);
-        result = 31 * result + (upDt != null ? upDt.hashCode() : 0);
-        result = 31 * result + (upNm != null ? upNm.hashCode() : 0);
-        result = 31 * result + (rgDt != null ? rgDt.hashCode() : 0);
-        result = 31 * result + (rgNm != null ? rgNm.hashCode() : 0);
-        return result;
+        return Objects.hash(parentNodeId, childNodeId, upDt, upNm, rgDt, rgNm);
     }
 }

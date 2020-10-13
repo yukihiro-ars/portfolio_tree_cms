@@ -3,6 +3,7 @@ package ars.yukihiro.entity;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.util.Objects;
 
 public class NodeRelationshipPK implements Serializable {
     private String parentNodeId;
@@ -32,19 +33,13 @@ public class NodeRelationshipPK implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         NodeRelationshipPK that = (NodeRelationshipPK) o;
-
-        if (parentNodeId != null ? !parentNodeId.equals(that.parentNodeId) : that.parentNodeId != null) return false;
-        if (childNodeId != null ? !childNodeId.equals(that.childNodeId) : that.childNodeId != null) return false;
-
-        return true;
+        return Objects.equals(parentNodeId, that.parentNodeId) &&
+                Objects.equals(childNodeId, that.childNodeId);
     }
 
     @Override
     public int hashCode() {
-        int result = parentNodeId != null ? parentNodeId.hashCode() : 0;
-        result = 31 * result + (childNodeId != null ? childNodeId.hashCode() : 0);
-        return result;
+        return Objects.hash(parentNodeId, childNodeId);
     }
 }

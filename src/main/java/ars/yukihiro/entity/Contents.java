@@ -1,11 +1,10 @@
 package ars.yukihiro.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
+@Table(schema = "business")
 public class Contents {
     private String contentsId;
     private String contentsVal;
@@ -78,28 +77,17 @@ public class Contents {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Contents contents = (Contents) o;
-
-        if (contentsId != null ? !contentsId.equals(contents.contentsId) : contents.contentsId != null) return false;
-        if (contentsVal != null ? !contentsVal.equals(contents.contentsVal) : contents.contentsVal != null)
-            return false;
-        if (upDt != null ? !upDt.equals(contents.upDt) : contents.upDt != null) return false;
-        if (upNm != null ? !upNm.equals(contents.upNm) : contents.upNm != null) return false;
-        if (rgDt != null ? !rgDt.equals(contents.rgDt) : contents.rgDt != null) return false;
-        if (rgNm != null ? !rgNm.equals(contents.rgNm) : contents.rgNm != null) return false;
-
-        return true;
+        return Objects.equals(contentsId, contents.contentsId) &&
+                Objects.equals(contentsVal, contents.contentsVal) &&
+                Objects.equals(upDt, contents.upDt) &&
+                Objects.equals(upNm, contents.upNm) &&
+                Objects.equals(rgDt, contents.rgDt) &&
+                Objects.equals(rgNm, contents.rgNm);
     }
 
     @Override
     public int hashCode() {
-        int result = contentsId != null ? contentsId.hashCode() : 0;
-        result = 31 * result + (contentsVal != null ? contentsVal.hashCode() : 0);
-        result = 31 * result + (upDt != null ? upDt.hashCode() : 0);
-        result = 31 * result + (upNm != null ? upNm.hashCode() : 0);
-        result = 31 * result + (rgDt != null ? rgDt.hashCode() : 0);
-        result = 31 * result + (rgNm != null ? rgNm.hashCode() : 0);
-        return result;
+        return Objects.hash(contentsId, contentsVal, upDt, upNm, rgDt, rgNm);
     }
 }

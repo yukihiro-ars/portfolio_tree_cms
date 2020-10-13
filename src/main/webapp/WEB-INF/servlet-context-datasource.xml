@@ -7,8 +7,19 @@
        http://www.springframework.org/schema/jee
        http://www.springframework.org/schema/jee/spring-jee.xsd">
 
-    <!-- siteowner -->
-    <jee:jndi-lookup id="siteOwnerDataSource" jndi-name="java:jboss/jdbc/arsSiteOwnerDS"/>
+    <!-- site owner default resource-ref="true"  -->
+    <jee:jndi-lookup id="soDataSource" jndi-name="java:jboss/jdbc/arsSiteOwnerDS" proxy-interface="javax.sql.DataSource"/>
+    <!-- site owner EntityManagerFactory -->
+    <bean id="soEntityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="soDataSource"/>
+        <property name="packagesToScan" value="ars.yukihiro.entity"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="showSql" value="true"/>
+                <property name="database" value="POSTGRESQL"/>
+            </bean>
+        </property>
+    </bean>
 
     <!-- TODO general -->
 </beans>

@@ -2,4 +2,39 @@
 <entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
         version="2.0">
 
+    <entity class="ars.yukihiro.entity.Node">
+        <table name="node" schema="business" catalog="ars"/>
+        <attributes>
+            <id name="nodeId">
+                <column name="node_id" length="10"/>
+            </id>
+            <basic name="nodeType">
+                <column name="node_type"/>
+            </basic>
+            <basic name="hierarchy">
+                <column name="hierarchy" precision="-1"/>
+            </basic>
+            <basic name="nodeNmLgc">
+                <column name="node_nm_lgc" length="20"/>
+            </basic>
+            <basic name="nodeNmPsc">
+                <column name="node_nm_psc" length="20"/>
+            </basic>
+            <basic name="contentsId">
+                <column name="contents_id" nullable="false" length="10"/>
+            </basic>
+            <basic name="upDt">
+                <column name="up_dt" nullable="false" length="17"/>
+            </basic>
+            <basic name="upNm">
+                <column name="up_nm" nullable="false" length="20"/>
+            </basic>
+            <basic name="rgDt">
+                <column name="rg_dt" nullable="false" length="17"/>
+            </basic>
+            <basic name="rgNm">
+                <column name="rg_nm" nullable="false" length="20"/>
+            </basic>
+        </attributes>
+    </entity>
 </entity-mappings>
