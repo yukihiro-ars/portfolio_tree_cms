@@ -2,10 +2,37 @@
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymleaf.org">
+<!-- TODO jquery import -->
+<script type="text/javascript">
+// TODO doPost promise and then and error
+</script>
 <body>
+<!-- https://qiita.com/rubytomato@github/items/387d46ea34eb92071065 -->
+<!-- https://casual-tech-note.hatenablog.com/entry/2018/10/10/224250 -->
+<!-- TODO 一旦 node管理画面の仕様を整理 input confirm completeとファイルを分けるほうが良い -->
 <h2>Node!</h2>
-<form method="post">
-    <submit></submit>
+<!-- node/以下をルートとしたリクエストにしたい -->
+<form th:object="${nodeForm}" method="post" th:action="@{/node}">
+    <!-- ノードID -->
+    <input th:field="*{nodeId}" type="hidden" />
+    <!-- ノード種別 -->
+    <select id="nodeType" name="nodeType">
+        <option th:each="nt : ${T(ars.yukihiro.constants.NodeType).values()}"
+                th:value="${nt.name}"
+                th:selected="${nt.value}==*{nodeType.value}"
+                th:text="${nt.label}"></option>
+    </select>
+    <!-- 階層 -->
+    <input th:field="*{hierarchy}" type="text"/>
+    <!-- ノード名（論理） -->
+    <input th:field="*{nodeNmLgc}" type="text"/>
+    <!-- ノード名（物理） -->
+    <input th:field="*{nodeNmPsc}" type="text"/>
+
+    <!-- TODO コンテンツID modelから候補取得 -->
+    <!-- TODO 隠し項目　登録日付、更新日付 -->
+    <!-- TODO 登録 / 更新 名称切り替え -->
+    <button type="submit" onclick="">登録/更新</button>
 </form>
 </body>
 </html>

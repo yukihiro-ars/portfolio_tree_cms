@@ -1,11 +1,12 @@
 package ars.yukihiro.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(schema = "business")
-public class Node {
+public class Node implements Serializable {
     private String nodeId;
     private String nodeType;
     private short hierarchy;

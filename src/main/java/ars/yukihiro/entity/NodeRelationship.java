@@ -1,12 +1,13 @@
 package ars.yukihiro.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "node_relationship", schema = "business", catalog = "ars")
 @IdClass(NodeRelationshipPK.class)
-public class NodeRelationship {
+public class NodeRelationship implements Serializable {
     private String parentNodeId;
     private String childNodeId;
     private String upDt;

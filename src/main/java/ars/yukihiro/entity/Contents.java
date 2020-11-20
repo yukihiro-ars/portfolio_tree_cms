@@ -1,11 +1,12 @@
 package ars.yukihiro.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(schema = "business")
-public class Contents {
+public class Contents implements Serializable {
     private String contentsId;
     private String contentsVal;
     private String upDt;
