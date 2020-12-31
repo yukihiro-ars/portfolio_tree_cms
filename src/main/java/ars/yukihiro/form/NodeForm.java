@@ -12,6 +12,8 @@ public class NodeForm implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private static final String MSG = "半角英数字で入力してください";
+
     private String nodeId;
     @NotNull
     private NodeType nodeType;
@@ -20,7 +22,7 @@ public class NodeForm implements Serializable {
     @NotNull
     private String nodeNmLgc;
     @NotNull
-    @Pattern(regexp = "^[a-zA-Z0-9]+$")
+    @Pattern(regexp = "^[a-zA-Z0-9]+$", message = MSG)
     private String nodeNmPsc;
 //    @NotNull
 //    @Pattern(regexp = "^[0-9]+$")

@@ -2,10 +2,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/jee
-       http://www.springframework.org/schema/jee/spring-jee.xsd">
+       http://www.springframework.org/schema/jee/spring-jee.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <!-- site owner default resource-ref="true"  -->
     <jee:jndi-lookup id="soDataSource" jndi-name="java:jboss/jdbc/arsSiteOwnerDS" proxy-interface="javax.sql.DataSource"/>
@@ -20,6 +23,14 @@
             </bean>
         </property>
     </bean>
+    <!-- transaction -->
+    <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="soEntityManagerFactory"/>
+        <property name="jpaDialect">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
+        </property>
+    </bean>
+    <tx:annotation-driven transaction-manager="txManager"></tx:annotation-driven>
 
     <!-- TODO general -->
 </beans>

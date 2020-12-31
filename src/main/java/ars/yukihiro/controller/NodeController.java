@@ -4,6 +4,8 @@ import ars.yukihiro.constants.NodeType;
 import ars.yukihiro.form.NodeForm;
 import ars.yukihiro.service.NodeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * node管理用のコントローラ.
@@ -31,30 +35,40 @@ public class NodeController {
         // TODO @RequestParam属性から取得するか？
         // TODO NodeIdの指定がある場合、DBよりデータを取得する
         // TODO NodeIdが指定済み、かつ取得結果0件の場合は、不正なNodeId
-        System.out.println(nodeService.findNode("1234567890").getNodeNmLgc());
-        NodeForm form = new NodeForm();
-        form.setNodeType(NodeType.LEAF);
-        form.setNodeNmPsc("NODENAMELGC");
-        model.addAttribute("nodeForm", form);
-        System.out.println("doGet");
+        try {
+            model.addAttribute(
+                    "nodeForm",
+                    nodeService.getNodeForm("1234567890"));
+        } catch (Exception e) {
+            // TODO エラー時の処理 400 BadRequest
+        }
+
         return "node";
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void doPost(@Validated NodeForm form,
-                       BindingResult result,
-                       Model model) {
+    public ResponseEntity<Map<String, Object>> doPost(@Validated NodeForm form,
+                                                            BindingResult result,
+                                                            Model model) {
+
+        Map<String, Object> responseBody = new HashMap<String, Object>();
 
         if (result.hasErrors()) {
-            System.out.println("doPost hasError");
-            List<FieldError> errors = result.getFieldErrors();
-            for(FieldError error : errors) {
-                System.out.println(error.getDefaultMessage());
+            for(FieldError error : result.getFieldErrors()) {
+                responseBody.put(error.getField(), error.getDefaultMessage());
             }
+            return ResponseEntity.badRequest().body(responseBody);
         } else {
-            // do some process
-            System.out.println("doPost corrected");
-        }
+            try {
+                nodeService.updateNodeByForm(form);
+                responseBody.put("message", "正常に更新処理が完了しました。");
+                return ResponseEntity.ok(responseBody);
+            } catch (Exception e) {
+                e.printStackTrace();
+                responseBody.put("message", "想定外の例外が発生しました。");
+                return ResponseEntity.badRequest().body(responseBody);
+            }
 
+        }
     }
 }

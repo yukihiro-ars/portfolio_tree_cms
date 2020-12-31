@@ -2,17 +2,44 @@
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymleaf.org">
-<!-- TODO jquery import -->
-<script type="text/javascript">
-// TODO doPost promise and then and error
-</script>
+<head th:replace="fragment/head :: head_fragment(title = 'Node画面', scripts = ~{::script})")>
+    <script th:inline="javascript">
+        function doPost() {
+            $.ajax({
+                url : $("#nodeForm").attr("action"),
+                method : $("#nodeForm").attr("method"),
+                data : $("#nodeForm").serialize(),
+                contentType : "application/x-www-form-urlencoded",
+                beforeSend : function () {
+                    $(".errorMsg").remove();
+                }
+            }).done(function() {
+                // TODO 処理成功時のメッセージ
+                console.log(arguments);
+                alert("success!!");
+            }).error(function(jqXHR) {
+                // エラーメッセージ出力
+                if (jqXHR && jqXHR.responseJSON) {
+                    Object.keys(jqXHR.responseJSON)
+                        .map(function(elm, idx, arr) {
+                            $("#"+ elm).after(
+                                "<span class='errorMsg'>"
+                                + jqXHR.responseJSON[elm]
+                                + "</span>");
+                        });
+                    console.log(jqXHR.responseJSON);
+                }
+                alert("error!!");
+            });
+        };
+    </script>
+</head>
 <body>
 <!-- https://qiita.com/rubytomato@github/items/387d46ea34eb92071065 -->
 <!-- https://casual-tech-note.hatenablog.com/entry/2018/10/10/224250 -->
-<!-- TODO 一旦 node管理画面の仕様を整理 input confirm completeとファイルを分けるほうが良い -->
 <h2>Node!</h2>
 <!-- node/以下をルートとしたリクエストにしたい -->
-<form th:object="${nodeForm}" method="post" th:action="@{/node}">
+<form th:object="${nodeForm}" id="nodeForm" method="post" th:action="@{/node}">
     <!-- ノードID -->
     <input th:field="*{nodeId}" type="hidden" />
     <!-- ノード種別 -->
@@ -32,7 +59,7 @@
     <!-- TODO コンテンツID modelから候補取得 -->
     <!-- TODO 隠し項目　登録日付、更新日付 -->
     <!-- TODO 登録 / 更新 名称切り替え -->
-    <button type="submit" onclick="">登録/更新</button>
+    <button type="button" onclick="doPost()">登録/更新</button>
 </form>
 </body>
 </html>
