@@ -1,8 +1,6 @@
 package ars.yukihiro.form;
 
 import ars.yukihiro.constants.NodeType;
-import ars.yukihiro.entity.Node;
-import org.springframework.lang.NonNull;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -12,8 +10,6 @@ public class NodeForm implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private static final String MSG = "半角英数字で入力してください";
-
     private String nodeId;
     @NotNull
     private NodeType nodeType;
@@ -22,10 +18,9 @@ public class NodeForm implements Serializable {
     @NotNull
     private String nodeNmLgc;
     @NotNull
-    @Pattern(regexp = "^[a-zA-Z0-9]+$", message = MSG)
+    @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "{javax.validation.constraints.Pattern.azAZ09.message}")
     private String nodeNmPsc;
-//    @NotNull
-//    @Pattern(regexp = "^[0-9]+$")
+    //    @Pattern(regexp = "^[0-9]+$")
     private String contentsId;
 
     public String getNodeId() {

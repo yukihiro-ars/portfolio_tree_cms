@@ -27,6 +27,7 @@ public class NodeRepository {
             CriteriaBuilder cb = entityManager.getCriteriaBuilder();
             CriteriaUpdate<Node> update = cb.createCriteriaUpdate(Node.class);
             Root<Node> root = update.from(Node.class);
+            // TODO 文字化け対応
             // TODO メタモデル使いたい
             update
                     .set(root.get("hierarchy"), entity.getHierarchy())

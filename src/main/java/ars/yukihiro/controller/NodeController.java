@@ -1,10 +1,10 @@
 package ars.yukihiro.controller;
 
-import ars.yukihiro.constants.NodeType;
 import ars.yukihiro.form.NodeForm;
+import ars.yukihiro.message.SystemMessageBundle;
+import ars.yukihiro.message.SystemMessageConstants;
 import ars.yukihiro.service.NodeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -61,11 +60,14 @@ public class NodeController {
         } else {
             try {
                 nodeService.updateNodeByForm(form);
-                responseBody.put("message", "正常に更新処理が完了しました。");
+                responseBody.put("message",
+                        SystemMessageBundle.getMessage(
+                                SystemMessageConstants.SYS_I_01, "登録／更新"));
                 return ResponseEntity.ok(responseBody);
             } catch (Exception e) {
                 e.printStackTrace();
-                responseBody.put("message", "想定外の例外が発生しました。");
+                responseBody.put("message",
+                        SystemMessageBundle.getMessage(SystemMessageConstants.SYS_E_01));
                 return ResponseEntity.badRequest().body(responseBody);
             }
 
