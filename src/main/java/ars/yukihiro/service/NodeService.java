@@ -7,6 +7,10 @@ import ars.yukihiro.entity.Node;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Node用サービスクラス
+ * @atuher yukihiro adachi
+ */
 @Service
 public class NodeService {
 

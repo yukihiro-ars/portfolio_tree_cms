@@ -4,6 +4,10 @@ import ars.yukihiro.form.NodeForm;
 import ars.yukihiro.message.SystemMessageBundle;
 import ars.yukihiro.message.SystemMessageConstants;
 import ars.yukihiro.service.NodeService;
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.core.util.StatusPrinter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,6 +30,10 @@ import java.util.Map;
 @RequestMapping("node")
 @SessionAttributes(types = NodeForm.class)
 public class NodeController {
+
+    private static final Logger logger =
+            LoggerFactory.getLogger(NodeController.class);
+
     @Autowired
     private NodeService nodeService;
 
@@ -39,9 +47,11 @@ public class NodeController {
                     "nodeForm",
                     nodeService.getNodeForm("1234567890"));
         } catch (Exception e) {
+            logger.error(
+                    SystemMessageBundle.getMessage(
+                            SystemMessageConstants.SYS_E_01), e);
             // TODO エラー時の処理 400 BadRequest
         }
-
         return "node";
     }
 
@@ -50,7 +60,7 @@ public class NodeController {
                                                             BindingResult result,
                                                             Model model) {
 
-        Map<String, Object> responseBody = new HashMap<String, Object>();
+        Map<String, Object> responseBody = new HashMap<>();
 
         if (result.hasErrors()) {
             for(FieldError error : result.getFieldErrors()) {
@@ -65,12 +75,13 @@ public class NodeController {
                                 SystemMessageConstants.SYS_I_01, "登録／更新"));
                 return ResponseEntity.ok(responseBody);
             } catch (Exception e) {
-                e.printStackTrace();
                 responseBody.put("message",
                         SystemMessageBundle.getMessage(SystemMessageConstants.SYS_E_01));
+                logger.error(
+                        SystemMessageBundle.getMessage(
+                                SystemMessageConstants.SYS_E_01), e);
                 return ResponseEntity.badRequest().body(responseBody);
             }
-
         }
     }
 }

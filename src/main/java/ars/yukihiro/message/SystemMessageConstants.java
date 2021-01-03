@@ -1,5 +1,9 @@
 package ars.yukihiro.message;
 
+/**
+ * SystemMessage用メッセージID定数クラス
+ * @atuher yukihiro adachi
+ */
 public enum SystemMessageConstants {
 
     SYS_E_01("SYS_E_01"),
@@ -14,14 +18,4 @@ public enum SystemMessageConstants {
     public String getKey() {
         return key;
     }
-
-    public static SystemMessageConstants convertByValue(String value) {
-        for (SystemMessageConstants msg : SystemMessageConstants.values()) {
-            if (msg.getKey() == value) {
-                return msg;
-            }
-        }
-        throw new IllegalArgumentException();
-    }
-
 }

@@ -1,0 +1,29 @@
+<!DOCTYPE logback>
+<configuration debug="true">
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- TODO メッセージは要検討 -->
+            <pattern>[%level] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- TODO logDirを指定 -->
+    <property name="logDir" value="C:/xxx/"/>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logDir}application.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logDir}application.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <!-- TODO メッセージは要検討 -->
+            <pattern>[%level] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>

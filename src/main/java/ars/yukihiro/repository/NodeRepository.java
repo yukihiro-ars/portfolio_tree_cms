@@ -11,6 +11,10 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.criteria.Root;
 
+/**
+ * Node用リポジトリクラス
+ * @atuher yukihiro adachi
+ */
 @Repository
 public class NodeRepository {
 

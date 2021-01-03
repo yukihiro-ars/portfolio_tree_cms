@@ -1,6 +1,8 @@
 /target/
 #for JPA Tool
 /lib/
+#for log
+/log/
 #for IntelliJ
 /.idea/
 /profileSiteApp.iml

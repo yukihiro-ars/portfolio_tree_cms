@@ -6,6 +6,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
+/**
+ * Node用のフォーム
+ * @atuher yukihiro adachi
+ */
 public class NodeForm implements Serializable {
 
     private static final long serialVersionUID = 1L;

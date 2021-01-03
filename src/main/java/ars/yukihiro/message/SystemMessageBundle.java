@@ -4,6 +4,10 @@ import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * SystemMessage用バンドルクラス
+ * @atuher yukihiro adachi
+ */
 public class SystemMessageBundle {
 
     private static String basename = "SystemMessage";
