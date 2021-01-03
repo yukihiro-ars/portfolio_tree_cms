@@ -1,5 +1,6 @@
 <jboss-deployment-structure>
     <deployment>
+        <!-- applicationのslf4jを優先するためJBossのslf4jは除外 -->
         <exclusions>
             <module name="org.slf4j" />
             <module name="org.slf4j.impl" />
