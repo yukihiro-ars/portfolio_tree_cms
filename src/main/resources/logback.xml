@@ -1,15 +1,15 @@
 <!DOCTYPE logback>
 <configuration debug="true">
+    <!-- @see http://logback.qos.ch/manual/introduction_ja.html -->
+    <!-- APPENDER -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <!-- TODO メッセージは要検討 -->
-            <pattern>[%level] - %msg%n</pattern>
+            <pattern>%date [%level] %thread %file %line - %message%n</pattern>
         </encoder>
     </appender>
 
-    <!-- TODO logDirを指定 -->
-    <property name="logDir" value="C:/xxx/"/>
-
+    <!-- TODO logDirを指定する場合、コメントを外して任意の絶対パスを指定.開発時はWebServerの環境変数を参照する. -->
+    <!--property name="logDir" value="../log/"/-->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${logDir}application.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -17,12 +17,18 @@
             <maxHistory>7</maxHistory>
         </rollingPolicy>
         <encoder>
-            <!-- TODO メッセージは要検討 -->
-            <pattern>[%level] - %msg%n</pattern>
+            <pattern>%date [%level] %thread %file %line - %message%n</pattern>
         </encoder>
     </appender>
 
-    <root level="DEBUG">
+    <!-- LOGGER -->
+    <logger name="ars.yukihiro" level="DEBUG">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
+    </logger>
+
+    <!-- ROOT -->
+    <root level="INFO">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE"/>
     </root>

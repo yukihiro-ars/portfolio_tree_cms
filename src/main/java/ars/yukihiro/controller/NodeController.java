@@ -4,8 +4,6 @@ import ars.yukihiro.form.NodeForm;
 import ars.yukihiro.message.SystemMessageBundle;
 import ars.yukihiro.message.SystemMessageConstants;
 import ars.yukihiro.service.NodeService;
-import ch.qos.logback.classic.LoggerContext;
-import ch.qos.logback.core.util.StatusPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +44,7 @@ public class NodeController {
             model.addAttribute(
                     "nodeForm",
                     nodeService.getNodeForm("1234567890"));
+            logger.info("TEST");
         } catch (Exception e) {
             logger.error(
                     SystemMessageBundle.getMessage(

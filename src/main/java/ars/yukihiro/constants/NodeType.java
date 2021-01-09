@@ -1,5 +1,7 @@
 package ars.yukihiro.constants;
 
+import java.util.Objects;
+
 /**
  * ノードタイプ列挙型.
  * @author yukihiro adachi
