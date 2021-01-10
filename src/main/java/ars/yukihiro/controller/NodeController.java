@@ -1,21 +1,25 @@
 package ars.yukihiro.controller;
 
+import ars.yukihiro.constants.NodeType;
+import ars.yukihiro.exception.ResourceNotFoundException;
 import ars.yukihiro.form.NodeForm;
 import ars.yukihiro.message.SystemMessageBundle;
 import ars.yukihiro.message.SystemMessageConstants;
 import ars.yukihiro.service.NodeService;
+import org.hibernate.ResourceClosedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,24 +40,34 @@ public class NodeController {
     private NodeService nodeService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String doGet(Model model){
-        // TODO @RequestParam属性から取得するか？
-        // TODO NodeIdの指定がある場合、DBよりデータを取得する
-        // TODO NodeIdが指定済み、かつ取得結果0件の場合は、不正なNodeId
+    public ModelAndView doGet(@RequestParam(name = "nodeId") String nodeId, ModelAndView mv){
         try {
-            model.addAttribute(
-                    "nodeForm",
-                    nodeService.getNodeForm("1234567890"));
-            logger.info("TEST");
+            NodeForm form;
+            if (StringUtils.isEmpty(nodeId)) {
+                // 新規
+                form = new NodeForm();
+                // 初期値
+                form.setNodeType(NodeType.INNER);
+            } else {
+                // 更新
+                form = nodeService.getNodeForm(nodeId);
+                if (form == null) {
+                    throw new ResourceNotFoundException(
+                            String.format("nodeId:%s", nodeId));
+                }
+            }
+            mv.addObject("nodeForm", form);
+            mv.setViewName("node");
+            return mv;
         } catch (Exception e) {
             logger.error(
                     SystemMessageBundle.getMessage(
                             SystemMessageConstants.SYS_E_01), e);
-            // TODO エラー時の処理 400 BadRequest
+            throw e;
         }
-        return "node";
     }
 
+    @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Map<String, Object>> doPost(@Validated NodeForm form,
                                                             BindingResult result,

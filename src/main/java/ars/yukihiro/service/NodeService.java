@@ -17,22 +17,25 @@ public class NodeService {
     @Autowired
     private NodeRepository nodeRepository;
     /**
-     * @return
+     * @return NodeForm
      */
     public NodeForm getNodeForm(String nodeId) {
         try {
             Node entity = nodeRepository.findNode(nodeId);
-            NodeForm form = new NodeForm();
-            form.setNodeId(entity.getNodeId());
-            form.setNodeType(
-                    NodeType.convertByValue(
-                            Integer.parseInt(
-                                    entity.getNodeType())));
-            form.setHierarchy(entity.getHierarchy());
-            form.setNodeNmLgc(entity.getNodeNmLgc());
-            form.setNodeNmPsc(entity.getNodeNmPsc());
-            form.setContentsId(entity.getContentsId());
-            return form;
+            if (entity != null) {
+                NodeForm form = new NodeForm();
+                form.setNodeId(entity.getNodeId());
+                form.setNodeType(
+                        NodeType.convertByValue(
+                                Integer.parseInt(
+                                        entity.getNodeType())));
+                form.setHierarchy(entity.getHierarchy());
+                form.setNodeNmLgc(entity.getNodeNmLgc());
+                form.setNodeNmPsc(entity.getNodeNmPsc());
+                form.setContentsId(entity.getContentsId());
+                return form;
+            }
+            return null;
         } catch(Exception e) {
             throw e;
         }
