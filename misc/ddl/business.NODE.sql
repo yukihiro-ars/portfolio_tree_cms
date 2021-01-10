@@ -6,9 +6,9 @@ CREATE TABLE business.NODE(
     NODE_NM_LGC varchar(20) NOT NULL,
     NODE_NM_PSC varchar(20) NOT NULL,
     CONTENTS_ID char(10),
-    UP_DT char(17),
+    UP_DT timestamp,
     UP_NM varchar(20),
-    RG_DT char(17),
+    RG_DT timestamp,
     RG_NM varchar(20),
     CONSTRAINT pk_NODE PRIMARY KEY (NODE_ID)
 );

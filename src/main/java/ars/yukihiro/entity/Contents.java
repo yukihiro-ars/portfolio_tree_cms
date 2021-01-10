@@ -2,6 +2,7 @@ package ars.yukihiro.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
@@ -9,9 +10,9 @@ import java.util.Objects;
 public class Contents implements Serializable {
     private String contentsId;
     private String contentsVal;
-    private String upDt;
+    private Timestamp upDt;
     private String upNm;
-    private String rgDt;
+    private Timestamp rgDt;
     private String rgNm;
 
     @Id
@@ -35,12 +36,12 @@ public class Contents implements Serializable {
     }
 
     @Basic
-    @Column(name = "up_dt", nullable = true, length = 17)
-    public String getUpDt() {
+    @Column(name = "up_dt", nullable = true)
+    public Timestamp getUpDt() {
         return upDt;
     }
 
-    public void setUpDt(String upDt) {
+    public void setUpDt(Timestamp upDt) {
         this.upDt = upDt;
     }
 
@@ -55,12 +56,12 @@ public class Contents implements Serializable {
     }
 
     @Basic
-    @Column(name = "rg_dt", nullable = true, length = 17)
-    public String getRgDt() {
+    @Column(name = "rg_dt", nullable = true)
+    public Timestamp getRgDt() {
         return rgDt;
     }
 
-    public void setRgDt(String rgDt) {
+    public void setRgDt(Timestamp rgDt) {
         this.rgDt = rgDt;
     }
 

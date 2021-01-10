@@ -2,6 +2,8 @@ package ars.yukihiro.form;
 
 import ars.yukihiro.constants.NodeType;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
@@ -18,7 +20,9 @@ public class NodeForm implements Serializable {
     @NotNull
     private NodeType nodeType;
     @NotNull
-    private short hierarchy;
+    @Max(value = 5)
+    @Min(value = 1)
+    private Short hierarchy;
     @NotNull
     private String nodeNmLgc;
     @NotNull
@@ -42,11 +46,11 @@ public class NodeForm implements Serializable {
         this.nodeType = nodeType;
     }
 
-    public short getHierarchy() {
+    public Short getHierarchy() {
         return hierarchy;
     }
 
-    public void setHierarchy(short hierarchy) {
+    public void setHierarchy(Short hierarchy) {
         this.hierarchy = hierarchy;
     }
 

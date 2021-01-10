@@ -24,13 +24,13 @@
                 <column name="contents_id" nullable="false" length="10"/>
             </basic>
             <basic name="upDt">
-                <column name="up_dt" nullable="false" length="17"/>
+                <column name="up_dt" nullable="false" precision="-1"/>
             </basic>
             <basic name="upNm">
                 <column name="up_nm" nullable="false" length="20"/>
             </basic>
             <basic name="rgDt">
-                <column name="rg_dt" nullable="false" length="17"/>
+                <column name="rg_dt" nullable="false" precision="-1"/>
             </basic>
             <basic name="rgNm">
                 <column name="rg_nm" nullable="false" length="20"/>

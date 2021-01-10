@@ -1,9 +1,9 @@
 package ars.yukihiro.service;
 
 import ars.yukihiro.constants.NodeType;
+import ars.yukihiro.entity.Node;
 import ars.yukihiro.form.NodeForm;
 import ars.yukihiro.repository.NodeRepository;
-import ars.yukihiro.entity.Node;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

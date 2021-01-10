@@ -2,6 +2,7 @@ package ars.yukihiro.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
@@ -10,9 +11,10 @@ import java.util.Objects;
 public class NodeRelationship implements Serializable {
     private String parentNodeId;
     private String childNodeId;
-    private String upDt;
+    private short sort;
+    private Timestamp upDt;
     private String upNm;
-    private String rgDt;
+    private Timestamp rgDt;
     private String rgNm;
 
     @Id
@@ -36,12 +38,22 @@ public class NodeRelationship implements Serializable {
     }
 
     @Basic
-    @Column(name = "up_dt", nullable = true, length = 17)
-    public String getUpDt() {
+    @Column(name = "sort", nullable = false)
+    public short getSort() {
+        return sort;
+    }
+
+    public void setSort(short sort) {
+        this.sort = sort;
+    }
+
+    @Basic
+    @Column(name = "up_dt", nullable = true)
+    public Timestamp getUpDt() {
         return upDt;
     }
 
-    public void setUpDt(String upDt) {
+    public void setUpDt(Timestamp upDt) {
         this.upDt = upDt;
     }
 
@@ -56,12 +68,12 @@ public class NodeRelationship implements Serializable {
     }
 
     @Basic
-    @Column(name = "rg_dt", nullable = true, length = 17)
-    public String getRgDt() {
+    @Column(name = "rg_dt", nullable = true)
+    public Timestamp getRgDt() {
         return rgDt;
     }
 
-    public void setRgDt(String rgDt) {
+    public void setRgDt(Timestamp rgDt) {
         this.rgDt = rgDt;
     }
 
@@ -80,7 +92,8 @@ public class NodeRelationship implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         NodeRelationship that = (NodeRelationship) o;
-        return Objects.equals(parentNodeId, that.parentNodeId) &&
+        return sort == that.sort &&
+                Objects.equals(parentNodeId, that.parentNodeId) &&
                 Objects.equals(childNodeId, that.childNodeId) &&
                 Objects.equals(upDt, that.upDt) &&
                 Objects.equals(upNm, that.upNm) &&
@@ -90,6 +103,6 @@ public class NodeRelationship implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(parentNodeId, childNodeId, upDt, upNm, rgDt, rgNm);
+        return Objects.hash(parentNodeId, childNodeId, sort, upDt, upNm, rgDt, rgNm);
     }
 }
