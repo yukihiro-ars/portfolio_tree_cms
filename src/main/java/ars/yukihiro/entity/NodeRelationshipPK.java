@@ -6,26 +6,26 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class NodeRelationshipPK implements Serializable {
-    private String parentNodeId;
-    private String childNodeId;
+    private int parentNodeId;
+    private int childNodeId;
 
-    @Column(name = "parent_node_id", nullable = false, length = 10)
+    @Column(name = "parent_node_id", nullable = false)
     @Id
-    public String getParentNodeId() {
+    public int getParentNodeId() {
         return parentNodeId;
     }
 
-    public void setParentNodeId(String parentNodeId) {
+    public void setParentNodeId(int parentNodeId) {
         this.parentNodeId = parentNodeId;
     }
 
-    @Column(name = "child_node_id", nullable = false, length = 10)
+    @Column(name = "child_node_id", nullable = false)
     @Id
-    public String getChildNodeId() {
+    public int getChildNodeId() {
         return childNodeId;
     }
 
-    public void setChildNodeId(String childNodeId) {
+    public void setChildNodeId(int childNodeId) {
         this.childNodeId = childNodeId;
     }
 
@@ -34,8 +34,8 @@ public class NodeRelationshipPK implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         NodeRelationshipPK that = (NodeRelationshipPK) o;
-        return Objects.equals(parentNodeId, that.parentNodeId) &&
-                Objects.equals(childNodeId, that.childNodeId);
+        return parentNodeId == that.parentNodeId &&
+                childNodeId == that.childNodeId;
     }
 
     @Override

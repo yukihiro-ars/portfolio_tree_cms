@@ -16,7 +16,7 @@ public class NodeForm implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private String nodeId;
+    private Integer nodeId;
     @NotNull
     private NodeType nodeType;
     @NotNull
@@ -28,14 +28,13 @@ public class NodeForm implements Serializable {
     @NotNull
     @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "{javax.validation.constraints.Pattern.azAZ09.message}")
     private String nodeNmPsc;
-    //    @Pattern(regexp = "^[0-9]+$")
-    private String contentsId;
+    private Integer contentsId;
 
-    public String getNodeId() {
+    public Integer getNodeId() {
         return nodeId;
     }
 
-    public void setNodeId(String nodeId) {
+    public void setNodeId(Integer nodeId) {
         this.nodeId = nodeId;
     }
 
@@ -70,11 +69,11 @@ public class NodeForm implements Serializable {
         this.nodeNmPsc = nodeNmPsc;
     }
 
-    public String getContentsId() {
+    public Integer getContentsId() {
         return contentsId;
     }
 
-    public void setContentsId(String contentsId) {
+    public void setContentsId(Integer contentsId) {
         this.contentsId = contentsId;
     }
 }

@@ -3,12 +3,15 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:jee="http://www.springframework.org/schema/jee"
        xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/jee
        http://www.springframework.org/schema/jee/spring-jee.xsd
        http://www.springframework.org/schema/tx
-       http://www.springframework.org/schema/tx/spring-tx.xsd">
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/data/jpa
+       https://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
     <!-- site owner default resource-ref="true"  -->
     <jee:jndi-lookup id="soDataSource" jndi-name="java:jboss/jdbc/arsSiteOwnerDS" proxy-interface="javax.sql.DataSource"/>
@@ -30,7 +33,12 @@
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
         </property>
     </bean>
+
     <tx:annotation-driven transaction-manager="txManager"></tx:annotation-driven>
+
+    <jpa:repositories base-package="ars.yukihiro.repository"
+                      entity-manager-factory-ref="soEntityManagerFactory"
+                      transaction-manager-ref="txManager"/>
 
     <!-- TODO general -->
 </beans>

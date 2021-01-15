@@ -8,24 +8,25 @@ import java.util.Objects;
 @Entity
 @Table(schema = "business")
 public class Node implements Serializable {
-    private String nodeId;
+    private int nodeId;
     private String nodeType;
     private short hierarchy;
     private String nodeNmLgc;
     private String nodeNmPsc;
-    private String contentsId;
+    private Integer contentsId;
     private Timestamp upDt;
     private String upNm;
     private Timestamp rgDt;
     private String rgNm;
 
     @Id
-    @Column(name = "node_id", nullable = false, length = 10)
-    public String getNodeId() {
+    @Column(name = "node_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public int getNodeId() {
         return nodeId;
     }
 
-    public void setNodeId(String nodeId) {
+    public void setNodeId(int nodeId) {
         this.nodeId = nodeId;
     }
 
@@ -70,12 +71,12 @@ public class Node implements Serializable {
     }
 
     @Basic
-    @Column(name = "contents_id", nullable = true, length = 10)
-    public String getContentsId() {
+    @Column(name = "contents_id", nullable = true)
+    public Integer getContentsId() {
         return contentsId;
     }
 
-    public void setContentsId(String contentsId) {
+    public void setContentsId(Integer contentsId) {
         this.contentsId = contentsId;
     }
 
@@ -124,8 +125,8 @@ public class Node implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Node node = (Node) o;
-        return hierarchy == node.hierarchy &&
-                Objects.equals(nodeId, node.nodeId) &&
+        return nodeId == node.nodeId &&
+                hierarchy == node.hierarchy &&
                 Objects.equals(nodeType, node.nodeType) &&
                 Objects.equals(nodeNmLgc, node.nodeNmLgc) &&
                 Objects.equals(nodeNmPsc, node.nodeNmPsc) &&

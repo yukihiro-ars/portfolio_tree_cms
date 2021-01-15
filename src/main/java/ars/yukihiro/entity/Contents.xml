@@ -6,7 +6,7 @@
         <table name="contents" schema="business" catalog="ars"/>
         <attributes>
             <id name="contentsId">
-                <column name="contents_id" length="10"/>
+                <column name="contents_id" precision="-1"/>
             </id>
             <basic name="contentsVal">
                 <column name="contents_val" length="140"/>

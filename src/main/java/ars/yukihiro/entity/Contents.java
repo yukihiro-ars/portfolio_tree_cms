@@ -8,7 +8,7 @@ import java.util.Objects;
 @Entity
 @Table(schema = "business")
 public class Contents implements Serializable {
-    private String contentsId;
+    private int contentsId;
     private String contentsVal;
     private Timestamp upDt;
     private String upNm;
@@ -16,12 +16,13 @@ public class Contents implements Serializable {
     private String rgNm;
 
     @Id
-    @Column(name = "contents_id", nullable = false, length = 10)
-    public String getContentsId() {
+    @Column(name = "contents_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public int getContentsId() {
         return contentsId;
     }
 
-    public void setContentsId(String contentsId) {
+    public void setContentsId(int contentsId) {
         this.contentsId = contentsId;
     }
 
@@ -80,7 +81,7 @@ public class Contents implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Contents contents = (Contents) o;
-        return Objects.equals(contentsId, contents.contentsId) &&
+        return contentsId == contents.contentsId &&
                 Objects.equals(contentsVal, contents.contentsVal) &&
                 Objects.equals(upDt, contents.upDt) &&
                 Objects.equals(upNm, contents.upNm) &&

@@ -7,10 +7,10 @@
         <id-class class="ars.yukihiro.entity.NodeRelationshipPK"/>
         <attributes>
             <id name="parentNodeId">
-                <column name="parent_node_id" length="10"/>
+                <column name="parent_node_id" precision="-1"/>
             </id>
             <id name="childNodeId">
-                <column name="child_node_id" length="10"/>
+                <column name="child_node_id" precision="-1"/>
             </id>
             <basic name="sort">
                 <column name="sort" precision="-1"/>

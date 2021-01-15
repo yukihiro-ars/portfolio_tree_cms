@@ -6,15 +6,12 @@ import ars.yukihiro.form.NodeForm;
 import ars.yukihiro.message.SystemMessageBundle;
 import ars.yukihiro.message.SystemMessageConstants;
 import ars.yukihiro.service.NodeService;
-import org.hibernate.ResourceClosedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
@@ -40,10 +37,10 @@ public class NodeController {
     private NodeService nodeService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView doGet(@RequestParam(name = "nodeId") String nodeId, ModelAndView mv){
+    public ModelAndView doGet(@RequestParam(name = "nodeId") Integer nodeId, ModelAndView mv){
         try {
             NodeForm form;
-            if (StringUtils.isEmpty(nodeId)) {
+            if (nodeId == null) {
                 // 新規
                 form = new NodeForm();
                 // 初期値
@@ -82,7 +79,7 @@ public class NodeController {
             return ResponseEntity.badRequest().body(responseBody);
         } else {
             try {
-                nodeService.updateNodeByForm(form);
+                nodeService.upsertNodeByForm(form);
                 responseBody.put("message",
                         SystemMessageBundle.getMessage(
                                 SystemMessageConstants.SYS_I_01, "登録／更新"));
