@@ -1,6 +1,6 @@
 ﻿DROP TABLE IF EXISTS business.CONTENTS;
 CREATE TABLE business.CONTENTS(
-    CONTENTS_ID char(10) NOT NULL,
+    CONTENTS_ID serial NOT NULL,
     CONTENTS_VAL varchar(140) NOT NULL,
     UP_DT timestamp,
     UP_NM varchar(20),

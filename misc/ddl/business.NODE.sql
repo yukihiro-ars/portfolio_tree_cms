@@ -1,11 +1,11 @@
 ﻿DROP TABLE IF EXISTS business.NODE;
 CREATE TABLE business.NODE(
-    NODE_ID char(10) NOT NULL,
+    NODE_ID serial NOT NULL,
     NODE_TYPE char(1) NOT NULL DEFAULT 1,
     HIERARCHY smallint NOT NULL DEFAULT 1,
     NODE_NM_LGC varchar(20) NOT NULL,
     NODE_NM_PSC varchar(20) NOT NULL,
-    CONTENTS_ID char(10),
+    CONTENTS_ID integer,
     UP_DT timestamp,
     UP_NM varchar(20),
     RG_DT timestamp,

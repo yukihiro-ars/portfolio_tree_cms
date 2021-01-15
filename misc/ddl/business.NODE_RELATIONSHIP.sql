@@ -1,7 +1,7 @@
 ﻿DROP TABLE IF EXISTS business.NODE_RELATIONSHIP;
 CREATE TABLE business.NODE_RELATIONSHIP(
-    PARENT_NODE_ID char(10) NOT NULL,
-    CHILD_NODE_ID char(10) NOT NULL,
+    PARENT_NODE_ID integer NOT NULL,
+    CHILD_NODE_ID integer NOT NULL,
     SORT smallint NOT NULL,
     UP_DT timestamp,
     UP_NM varchar(20),
