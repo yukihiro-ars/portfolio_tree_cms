@@ -2,7 +2,58 @@
 <html lang="ja"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymleaf.org">
+<head th:replace="fragment/head :: head_fragment(title = 'Contents画面', scripts = ~{::script})")>
+    <script th:inline="javascript">
+        /** TODO contents 画面と共通化 */
+        function doPost() {
+            $.ajax({
+                url : $("#contentsForm").attr("action"),
+                method : $("#contentsForm").attr("method"),
+                data : $("#contentsForm").serialize(),
+                contentType : "application/x-www-form-urlencoded",
+                beforeSend : function () {
+                    $(".errorMsg").remove();
+                }
+            }).done(function() {
+                // TODO 処理成功時のメッセージ
+                console.log(arguments);
+                alert("success!!");
+            }).error(function(jqXHR) {
+                // エラーメッセージ出力
+                if (jqXHR && jqXHR.responseJSON) {
+                    Object.keys(jqXHR.responseJSON)
+                        .map(function(elm, idx, arr) {
+                            $("#"+ elm).after(
+                                "<span class='errorMsg'>"
+                                + jqXHR.responseJSON[elm]
+                                + "</span>");
+                        });
+                    console.log(jqXHR.responseJSON);
+                }
+                alert("error!!");
+            });
+        };
+    </script>
+</head>
 <body>
 <h2>Contents!</h2>
+<div class="container">
+    <form th:object="${contentsForm}" id="contentsForm" method="post" th:action="@{/contents}">
+        <div class="form-group">
+            <!-- コンテンツID -->
+            <label for="contentsId">コンテンツID：</label>
+            <span th:text="*{contentsId}"/>
+            <input th:field="*{contentsId}" type="hidden" class="form-control"/>
+        </div>
+        <div class="form-group">
+            <!-- コンテンツ値 -->
+            <label for="contentsVal">ノード名（物理）</label>
+            <input th:field="*{contentsVal}" type="text" class="form-control"/>
+        </div>
+        <!-- TODO 隠し項目　登録日付、更新日付 -->
+        <!-- TODO 登録 / 更新 名称切り替え -->
+        <button type="button" class="btn btn-outline-primary" onclick="doPost()">登録/更新</button>
+    </form>
+</div>
 </body>
 </html>
