@@ -4,17 +4,17 @@ import ars.yukihiro.constants.NodeType;
 import ars.yukihiro.entity.Node;
 import ars.yukihiro.form.NodeForm;
 import ars.yukihiro.repository.NodeRepository;
+import java.util.Optional;
+import java.util.function.Supplier;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.management.relation.RoleUnresolved;
-import java.util.Optional;
-
 /**
- * Node用サービスクラス
+ * Node用サービスクラス.
  * @atuher yukihiro adachi
  */
 @Service
@@ -22,6 +22,8 @@ public class NodeService extends AbstractService {
 
     private static final Logger logger =
             LoggerFactory.getLogger(NodeService.class);
+
+    private Supplier<Node> newNode = () -> new Node();
 
     @Autowired
     private NodeRepository nodeRepository;
@@ -60,8 +62,8 @@ public class NodeService extends AbstractService {
                     .map(nodeId ->
                             nodeRepository
                                     .findById(nodeId)
-                                    .orElseGet(() ->new Node())) // findById null
-                    .orElseGet(() -> new Node()); // nodeId null
+                                    .orElseGet(newNode)) // findById null
+                    .orElseGet(newNode); // nodeId null
             entity.setNodeType(
                     String.valueOf(
                             form.getNodeType().getValue()));
@@ -71,8 +73,11 @@ public class NodeService extends AbstractService {
             logger.info(form.getNodeNmLgc());
             entity.setContentsId(form.getContentsId());
             entity.setUpDt(getCurrentTimeStamp());
-            entity.setUpNm("ADMIN"); // TODO Userオブジェクトより取得
-            // TODO newNodeIdの場合のみ、登録日、登録者を設定する
+            entity.setUpNm("ADMIN"); // TODO UpNm オブジェクトより取得
+            if (optNodeId.isEmpty()) {
+                entity.setRgDt(getCurrentTimeStamp());
+                entity.setRgNm("ADMIN"); // TODO RgNm オブジェクトより取得
+            }
             nodeRepository.save(entity);
         } catch(Exception e) {
             throw e;

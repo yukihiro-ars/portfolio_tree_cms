@@ -37,7 +37,9 @@ public class NodeController {
     private NodeService nodeService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView doGet(@RequestParam(name = "nodeId") Integer nodeId, ModelAndView mv){
+    public ModelAndView doGet(
+            @RequestParam(required = false, name = "nodeId") Integer nodeId,
+            ModelAndView mv) {
         try {
             NodeForm form;
             if (nodeId == null) {
@@ -46,7 +48,7 @@ public class NodeController {
                 // 初期値
                 form.setNodeType(NodeType.INNER);
             } else {
-                // 更新
+                // 編集
                 form = nodeService.getNodeForm(nodeId);
                 if (form == null) {
                     throw new ResourceNotFoundException(
