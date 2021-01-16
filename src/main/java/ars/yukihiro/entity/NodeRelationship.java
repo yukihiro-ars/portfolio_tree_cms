@@ -16,6 +16,7 @@ public class NodeRelationship implements Serializable {
     private String upNm;
     private Timestamp rgDt;
     private String rgNm;
+    private long version;
 
     @Id
     @Column(name = "parent_node_id", nullable = false)
@@ -87,6 +88,17 @@ public class NodeRelationship implements Serializable {
         this.rgNm = rgNm;
     }
 
+    @Basic
+    @Version
+    @Column(name = "version", nullable = false)
+    public long getVersion() {
+        return version;
+    }
+
+    public void setVersion(long version) {
+        this.version = version;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -95,6 +107,7 @@ public class NodeRelationship implements Serializable {
         return parentNodeId == that.parentNodeId &&
                 childNodeId == that.childNodeId &&
                 sort == that.sort &&
+                version == that.version &&
                 Objects.equals(upDt, that.upDt) &&
                 Objects.equals(upNm, that.upNm) &&
                 Objects.equals(rgDt, that.rgDt) &&
@@ -103,6 +116,6 @@ public class NodeRelationship implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(parentNodeId, childNodeId, sort, upDt, upNm, rgDt, rgNm);
+        return Objects.hash(parentNodeId, childNodeId, sort, upDt, upNm, rgDt, rgNm, version);
     }
 }

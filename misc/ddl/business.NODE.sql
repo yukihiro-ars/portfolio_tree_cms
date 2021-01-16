@@ -10,6 +10,7 @@ CREATE TABLE business.NODE(
     UP_NM varchar(20),
     RG_DT timestamp,
     RG_NM varchar(20),
+    VERSION bigint NOT NULL,
     CONSTRAINT pk_NODE PRIMARY KEY (NODE_ID)
 );
 COMMENT ON COLUMN business.NODE.NODE_ID IS 'ノードID';
@@ -22,4 +23,5 @@ COMMENT ON COLUMN business.NODE.UP_DT IS '更新日';
 COMMENT ON COLUMN business.NODE.UP_NM IS '更新者';
 COMMENT ON COLUMN business.NODE.RG_DT IS '登録日';
 COMMENT ON COLUMN business.NODE.RG_NM IS '登録者';
+COMMENT ON COLUMN business.NODE.VERSION IS 'バージョン';
 COMMENT ON TABLE business.NODE IS 'ノード';

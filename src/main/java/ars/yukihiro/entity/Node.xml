@@ -35,6 +35,9 @@
             <basic name="rgNm">
                 <column name="rg_nm" nullable="false" length="20"/>
             </basic>
+            <basic name="version">
+                <column name="version" precision="-1"/>
+            </basic>
         </attributes>
     </entity>
 </entity-mappings>

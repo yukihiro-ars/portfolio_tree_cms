@@ -18,6 +18,7 @@ public class Node implements Serializable {
     private String upNm;
     private Timestamp rgDt;
     private String rgNm;
+    private long version;
 
     @Id
     @Column(name = "node_id", nullable = false)
@@ -120,6 +121,17 @@ public class Node implements Serializable {
         this.rgNm = rgNm;
     }
 
+    @Basic
+    @Version
+    @Column(name = "version", nullable = false)
+    public long getVersion() {
+        return version;
+    }
+
+    public void setVersion(long version) {
+        this.version = version;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -127,6 +139,7 @@ public class Node implements Serializable {
         Node node = (Node) o;
         return nodeId == node.nodeId &&
                 hierarchy == node.hierarchy &&
+                version == node.version &&
                 Objects.equals(nodeType, node.nodeType) &&
                 Objects.equals(nodeNmLgc, node.nodeNmLgc) &&
                 Objects.equals(nodeNmPsc, node.nodeNmPsc) &&
@@ -139,6 +152,6 @@ public class Node implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(nodeId, nodeType, hierarchy, nodeNmLgc, nodeNmPsc, contentsId, upDt, upNm, rgDt, rgNm);
+        return Objects.hash(nodeId, nodeType, hierarchy, nodeNmLgc, nodeNmPsc, contentsId, upDt, upNm, rgDt, rgNm, version);
     }
 }

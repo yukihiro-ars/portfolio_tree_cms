@@ -14,6 +14,7 @@ public class Contents implements Serializable {
     private String upNm;
     private Timestamp rgDt;
     private String rgNm;
+    private long version;
 
     @Id
     @Column(name = "contents_id", nullable = false)
@@ -76,12 +77,24 @@ public class Contents implements Serializable {
         this.rgNm = rgNm;
     }
 
+    @Basic
+    @Version
+    @Column(name = "version", nullable = false)
+    public long getVersion() {
+        return version;
+    }
+
+    public void setVersion(long version) {
+        this.version = version;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Contents contents = (Contents) o;
         return contentsId == contents.contentsId &&
+                version == contents.version &&
                 Objects.equals(contentsVal, contents.contentsVal) &&
                 Objects.equals(upDt, contents.upDt) &&
                 Objects.equals(upNm, contents.upNm) &&
@@ -91,6 +104,6 @@ public class Contents implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(contentsId, contentsVal, upDt, upNm, rgDt, rgNm);
+        return Objects.hash(contentsId, contentsVal, upDt, upNm, rgDt, rgNm, version);
     }
 }
