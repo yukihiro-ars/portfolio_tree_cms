@@ -4,34 +4,8 @@
       xmlns:th="http://www.thymleaf.org">
 <head th:replace="fragment/head :: head_fragment(title = 'Node画面', scripts = ~{::script})")>
     <script th:inline="javascript">
-        /** TODO contents 画面と共通化 */
-        function doPost() {
-            $.ajax({
-                url : $("#nodeForm").attr("action"),
-                method : $("#nodeForm").attr("method"),
-                data : $("#nodeForm").serialize(),
-                contentType : "application/x-www-form-urlencoded",
-                beforeSend : function () {
-                    $(".errorMsg").remove();
-                }
-            }).done(function() {
-                // TODO 処理成功時のメッセージ
-                console.log(arguments);
-                alert("success!!");
-            }).error(function(jqXHR) {
-                // エラーメッセージ出力
-                if (jqXHR && jqXHR.responseJSON) {
-                    Object.keys(jqXHR.responseJSON)
-                        .map(function(elm, idx, arr) {
-                            $("#"+ elm).after(
-                                "<span class='errorMsg'>"
-                                + jqXHR.responseJSON[elm]
-                                + "</span>");
-                        });
-                    console.log(jqXHR.responseJSON);
-                }
-                alert("error!!");
-            });
+        function doPostNode() {
+            ajaxHelper.doPost($("#nodeForm"));
         };
     </script>
 </head>
@@ -75,7 +49,7 @@
         <!-- TODO コンテンツID modelから候補取得 -->
         <!-- TODO 隠し項目　登録日付、更新日付 -->
         <!-- TODO 登録 / 更新 名称切り替え -->
-        <button type="button" class="btn btn-outline-primary" onclick="doPost()">登録/更新</button>
+        <button type="button" class="btn btn-outline-primary" onclick="doPostNode()">登録/更新</button>
     </form>
 </div>
 </body>
