@@ -12,7 +12,8 @@
 <body>
 <h2>Contents!</h2>
 <div class="container">
-    <form th:object="${contentsForm}" id="contentsForm" method="post" th:action="@{/contents}">
+    <form th:object="${contentsForm}" id="contentsForm" method="post" th:action="@{/contents}" onsubmit="return false;">
+        <input th:field="*{version}" type="hidden"/>
         <div class="form-group">
             <!-- コンテンツID -->
             <label for="contentsId">コンテンツID：</label>
@@ -24,7 +25,6 @@
             <label for="contentsVal">ノード名（物理）</label>
             <input th:field="*{contentsVal}" type="text" class="form-control"/>
         </div>
-        <!-- TODO 隠し項目　登録日付、更新日付 -->
         <!-- TODO 登録 / 更新 名称切り替え -->
         <button type="button" class="btn btn-outline-primary" onclick="doPostContents()">登録/更新</button>
     </form>

@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
  * @author yukihiro adachi
  */
 @Repository
-public interface ContentsRepository  extends JpaRepository<Contents, Integer> {
+public interface ContentsRepository extends JpaRepository<Contents, Integer> {
 }

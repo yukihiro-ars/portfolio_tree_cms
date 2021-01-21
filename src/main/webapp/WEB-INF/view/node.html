@@ -13,6 +13,7 @@
 <h2>Node!</h2>
 <div class="container">
     <form th:object="${nodeForm}" id="nodeForm" method="post" th:action="@{/node}">
+        <input th:field="*{version}" type="hidden"/>
         <div class="form-group">
             <!-- ノードID -->
             <label for="nodeId">ノードID：</label>
@@ -45,9 +46,7 @@
             <label for="nodeNmPsc">ノード名（物理）</label>
             <input th:field="*{nodeNmPsc}" type="text" class="form-control"/>
         </div>
-
         <!-- TODO コンテンツID modelから候補取得 -->
-        <!-- TODO 隠し項目　登録日付、更新日付 -->
         <!-- TODO 登録 / 更新 名称切り替え -->
         <button type="button" class="btn btn-outline-primary" onclick="doPostNode()">登録/更新</button>
     </form>

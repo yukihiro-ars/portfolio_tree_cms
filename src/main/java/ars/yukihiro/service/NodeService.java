@@ -10,6 +10,7 @@ import java.util.function.Supplier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,6 +44,7 @@ public class NodeService extends AbstractService {
                 form.setNodeNmLgc(entity.getNodeNmLgc());
                 form.setNodeNmPsc(entity.getNodeNmPsc());
                 form.setContentsId(entity.getContentsId());
+                form.setVersion(entity.getVersion());
                 return form;
             }).orElse(null);
         } catch(Exception e) {
@@ -58,12 +60,14 @@ public class NodeService extends AbstractService {
         try {
             Optional<Integer> optNodeId =
                     Optional.ofNullable(form.getNodeId());
+            // TODO 楽観排他メソッドの共通化、及びentityの取得方法の改善を検討
             Node entity = optNodeId
                     .map(nodeId ->
                             nodeRepository
                                     .findById(nodeId)
                                     .orElseGet(newNode)) // findById null
                     .orElseGet(newNode); // nodeId null
+
             entity.setNodeType(
                     String.valueOf(
                             form.getNodeType().getValue()));
@@ -77,6 +81,9 @@ public class NodeService extends AbstractService {
             if (optNodeId.isEmpty()) {
                 entity.setRgDt(getCurrentTimeStamp());
                 entity.setRgNm("ADMIN"); // TODO RgNm オブジェクトより取得
+            } else if (form.getVersion() != entity.getVersion()) {
+                // 楽観排他チェック
+                throw new ObjectOptimisticLockingFailureException(Node.class, optNodeId.get());
             }
             nodeRepository.save(entity);
         } catch(Exception e) {
