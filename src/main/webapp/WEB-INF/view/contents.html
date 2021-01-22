@@ -2,7 +2,8 @@
 <html lang="ja"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymleaf.org">
-<head th:replace="fragment/head :: head_fragment(title = 'Contents画面', scripts = ~{::script})")>
+<head th:replace="fragment/head :: head_fragment(title = 'Contents画面', blocks = ~{::blocks}, script = ~{::script})")>
+    <blocks></blocks>
     <script th:inline="javascript">
         function doPostContents() {
             ajaxHelper.doPost($("#contentsForm"));

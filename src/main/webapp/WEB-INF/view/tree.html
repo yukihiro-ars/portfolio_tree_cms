@@ -2,6 +2,14 @@
 <html lang="ja"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymleaf.org">
+<head th:replace="fragment/head :: head_fragment(title = 'Tree画面', blocks = ~{::blocks}, script = ~{::script})">
+    <blocks>
+        <script type="text/javascript" th:src="@{/lib/js/bootstrap-treeview.js}"></script>
+        <link type="text/css" th:href="@{/lib/css/bootstrap-treeview.css}"></link>
+    </blocks>
+    <script th:inline="javascript"></script>
+</head>
+
 <body>
 <h2>Tree!</h2>
 </body>
