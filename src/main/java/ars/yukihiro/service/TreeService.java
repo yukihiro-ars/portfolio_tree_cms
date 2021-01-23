@@ -64,14 +64,16 @@ public class TreeService extends AbstractService {
                 .filter(isParentNode)
                 .map(e -> new Tree(e.getChildNodeId()))
                 .collect(Collectors.toList());
-        // 孫Node設定の再帰呼び出し用のリスト
-        List<NodeRelationship> nextList =
-                list.stream().filter(Predicate.not(isParentNode)).collect(Collectors.toList());
-        // 孫Node設定用の再帰呼び出し
-        parentTree.children.stream().forEach(t -> {
-           t.parent = parentTree;
-           setChildTreeRecurse(nextList, t);
-        });
+        // 親IDを除いたリスト
+        List<NodeRelationship> nextList = list.stream()
+                        .filter(Predicate.not(isParentNode))
+                        .collect(Collectors.toList());
+        // 孫Node設定の再帰呼び出し
+        parentTree.children.stream()
+                .forEach(tree -> {
+                    tree.parent = parentTree;
+                    setChildTreeRecurse(nextList, tree);
+                });
     }
 
     // TODO DEMOコード
