@@ -1,6 +1,4 @@
-package ars.yukihiro.constants;
-
-import java.util.Objects;
+package ars.yukihiro.enums;
 
 /**
  * ノードタイプ列挙型.

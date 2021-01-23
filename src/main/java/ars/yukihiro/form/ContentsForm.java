@@ -1,11 +1,6 @@
 package ars.yukihiro.form;
 
-import ars.yukihiro.constants.NodeType;
-
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
 /**

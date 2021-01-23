@@ -1,17 +1,17 @@
-package ars.yukihiro.message;
+package ars.yukihiro.enums;
 
 /**
- * SystemMessage用メッセージID定数クラス
+ * SystemMessage用ID定数クラス
  * @atuher yukihiro adachi
  */
-public enum SystemMessageConstants {
+public enum SystemMessageId {
 
     SYS_E_01("SYS_E_01"),
     SYS_I_01("SYS_I_01");
 
     private String key;
 
-    private SystemMessageConstants(String k) {
+    private SystemMessageId(String k) {
         key = k;
     }
 

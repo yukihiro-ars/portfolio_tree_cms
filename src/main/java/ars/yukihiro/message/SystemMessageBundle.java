@@ -1,5 +1,7 @@
 package ars.yukihiro.message;
 
+import ars.yukihiro.enums.SystemMessageId;
+
 import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -16,11 +18,13 @@ public class SystemMessageBundle {
         bundle = ResourceBundle.getBundle(basename, Locale.JAPAN);
     }
 
-    public static String getMessage(SystemMessageConstants msgKey) {
+    private SystemMessageBundle(){}
+
+    public static String getMessage(SystemMessageId msgKey) {
         return bundle.getString(msgKey.getKey());
     }
 
-    public static String getMessage(SystemMessageConstants msgKey, Object... params) {
+    public static String getMessage(SystemMessageId msgKey, Object... params) {
         return MessageFormat.format(bundle.getString(msgKey.getKey()), params);
     }
 }

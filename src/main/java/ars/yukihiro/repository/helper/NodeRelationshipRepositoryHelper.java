@@ -9,13 +9,13 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 public class NodeRelationshipRepositoryHelper {
-    public static Specification<NodeRelationship> isRootNode() {
+    public static Specification<NodeRelationship> isRootNode(Integer parentNodeId) {
         return new Specification<NodeRelationship>() {
             @Override
             public Predicate toPredicate(Root<NodeRelationship> root,
                                          CriteriaQuery<?> criteriaQuery,
                                          CriteriaBuilder criteriaBuilder) {
-                return criteriaBuilder.equal(root.get("parentNodeId"), "0");
+                return criteriaBuilder.equal(root.get("parentNodeId"), parentNodeId);
             }
         };
     }

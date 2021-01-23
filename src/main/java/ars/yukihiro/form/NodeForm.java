@@ -1,6 +1,6 @@
 package ars.yukihiro.form;
 
-import ars.yukihiro.constants.NodeType;
+import ars.yukihiro.enums.NodeType;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;

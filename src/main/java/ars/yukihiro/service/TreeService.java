@@ -28,7 +28,7 @@ public class TreeService extends AbstractService {
     public List<Object> getTree() {
         List<NodeRelationship> list =
                 nodeRelationshipRepository.findAll(
-                        NodeRelationshipRepositoryHelper.isRootNode());
+                        NodeRelationshipRepositoryHelper.isRootNode(0));
         list.stream().forEach(e -> {
             System.out.println(e.getSort());
         });
