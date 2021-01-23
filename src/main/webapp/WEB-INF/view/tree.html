@@ -7,10 +7,29 @@
         <script type="text/javascript" th:src="@{/lib/js/bootstrap-treeview.js}"></script>
         <link type="text/css" th:href="@{/lib/css/bootstrap-treeview.css}"></link>
     </blocks>
-    <script th:inline="javascript"></script>
-</head>
+    <script th:inline="javascript">
+        /** TODO ロード後にajaxで読込できる仕組みとする */
+        var treeData = [
+            {
+                text: "parent1",
+                nodes: [
+                    { text: "parent2" },
+                    { text: "parent3" }
+                ]
+            },
+            {
+                text: "parent10"
+            }
+        ];
 
+        $(document).ready(function() {
+            $('#tree').treeview({data: treeData});
+        });
+
+    </script>
+</head>
 <body>
 <h2>Tree!</h2>
+<div id="tree"></div>
 </body>
 </html>
