@@ -2,8 +2,8 @@ package ars.yukihiro.controller;
 
 import ars.yukihiro.exception.ResourceNotFoundException;
 import ars.yukihiro.form.ContentsForm;
-import ars.yukihiro.message.SystemMessageBundle;
-import ars.yukihiro.enums.SystemMessageId;
+import ars.yukihiro.message.ApplicationMessageBundle;
+import ars.yukihiro.enums.ApplicationMessageId;
 import ars.yukihiro.service.ContentsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,8 +59,8 @@ public class ContentsController {
             return mv;
         } catch (Exception e) {
             logger.error(
-                    SystemMessageBundle.getMessage(
-                            SystemMessageId.SYS_E_01), e);
+                    ApplicationMessageBundle.getMessage(
+                            ApplicationMessageId.SYS_E_01), e);
             throw e;
         }
     }
@@ -82,15 +82,15 @@ public class ContentsController {
             try {
                 contentsService.upsertContentsByForm(form);
                 responseBody.put("message",
-                        SystemMessageBundle.getMessage(
-                                SystemMessageId.SYS_I_01, "登録／更新"));
+                        ApplicationMessageBundle.getMessage(
+                                ApplicationMessageId.SYS_I_01, "登録／更新"));
                 return ResponseEntity.ok(responseBody);
             } catch (Exception e) {
                 responseBody.put("message",
-                        SystemMessageBundle.getMessage(SystemMessageId.SYS_E_01));
+                        ApplicationMessageBundle.getMessage(ApplicationMessageId.SYS_E_01));
                 logger.error(
-                        SystemMessageBundle.getMessage(
-                                SystemMessageId.SYS_E_01), e);
+                        ApplicationMessageBundle.getMessage(
+                                ApplicationMessageId.SYS_E_01), e);
                 return ResponseEntity.badRequest().body(responseBody);
             }
         }
