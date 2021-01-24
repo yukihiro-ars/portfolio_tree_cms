@@ -3,15 +3,13 @@ package ars.yukihiro.service;
 import ars.yukihiro.constants.ApplicationConstant;
 import ars.yukihiro.entity.NodeRelationship;
 import ars.yukihiro.repository.NodeRelationshipRepository;
-import ars.yukihiro.repository.helper.NodeRelationshipRepositoryHelper;
+import ars.yukihiro.response.json.TreeJson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -28,61 +26,39 @@ public class TreeService extends AbstractService {
     private NodeRelationshipRepository nodeRelationshipRepository;
 
     /**
-     * @return TODO 何らかの戻り値
+     * @return TreeJson
      */
-    public List<Object> getTree() {
+    public TreeJson getTree() {
         List<NodeRelationship> list =
                 nodeRelationshipRepository.findAll();
         // NodeRelationshipRepositoryHelper.isRootNode(0));
-        List<Predicate<NodeRelationship>> predicateList = new ArrayList<>();
-        predicateList.add(e -> e.getParentNodeId() == ApplicationConstant.ROOT_NODE_ID);
-        // TODO NodeRelationshipからのTree構造作成DEMO
-        Tree root = new Tree(ApplicationConstant.ROOT_NODE_ID);
+        TreeJson root = new TreeJson(ApplicationConstant.ROOT_NODE_ID);
         setChildTreeRecurse(list, root);
-        printTree(root, " ");
-        return null;
+        return root;
     }
 
-    // TODO DEMOコード console確認
-    private void printTree(Tree tree, String beforeSpacer) {
-        String spacer = beforeSpacer + " ";
-        System.out.println(spacer + tree.nodeId);
-        if (tree.children.size() > 0) {
-            tree.children.forEach(t -> {
-                printTree(t, spacer);
-            });
-        }
-    }
+    private void setChildTreeRecurse(List<NodeRelationship> list, TreeJson parentTree) {
 
-    // TODO DEMOコード
-    private void setChildTreeRecurse(List<NodeRelationship> list, Tree parentTree) {
         // 親ノードID判定
         Predicate<NodeRelationship> isParentNode =
-                e -> e.getParentNodeId() == parentTree.nodeId;
+                e -> e.getParentNodeId() == parentTree.getNodeId();
+
         // childNodeの設定
-        parentTree.children = list.stream()
+        List<TreeJson> children = list.stream()
                 .filter(isParentNode)
-                .map(e -> new Tree(e.getChildNodeId()))
+                .map(e -> new TreeJson(e.getChildNodeId()))
                 .collect(Collectors.toList());
+        parentTree.setChildren(children);
+;
         // 親IDを除いたリスト
         List<NodeRelationship> nextList = list.stream()
                         .filter(Predicate.not(isParentNode))
                         .collect(Collectors.toList());
+
         // 孫Node設定の再帰呼び出し
-        parentTree.children.stream()
+        parentTree.getChildren().stream()
                 .forEach(tree -> {
-                    tree.parent = parentTree;
                     setChildTreeRecurse(nextList, tree);
                 });
-    }
-
-    // TODO DEMOコード
-    private class Tree {
-        public Tree parent = null;
-        public Integer nodeId;
-        public List<Tree> children = new ArrayList<>();
-        Tree(Integer id) {
-            nodeId = id;
-        }
     }
 }

@@ -8,22 +8,28 @@
         <link type="text/css" th:href="@{/lib/css/bootstrap-treeview.css}"></link>
     </blocks>
     <script th:inline="javascript">
-        /** TODO ロード後にajaxで読込できる仕組みとする */
-        var treeData = [
-            {
-                text: "parent1",
-                nodes: [
-                    { text: "parent2" },
-                    { text: "parent3" }
-                ]
-            },
-            {
-                text: "parent10"
-            }
-        ];
-
         $(document).ready(function() {
-            $('#tree').treeview({data: treeData});
+            $.ajax({
+                // TODO　フィルターの値から可変とする
+                url : $("#treeUrl").val() + "/all",
+                method : 'get',
+                beforeSend : function () {
+                    // #tree 以下を削除
+                    // $("#tree .*").remove();
+                }
+            }).done(function(data, status, jqXHR) {
+                // 取得結果の適用
+                console.log(data);
+                $('#tree').treeview({
+                    data : [data.data],
+                    levels : 5
+                });
+                alert("success!!");
+            }).fail(function(jqXHR) {
+                console.log(jqXHR);
+                // エラーメッセージ出力
+                alert("error!!");
+            });
         });
 
     </script>
@@ -31,7 +37,7 @@
 <body>
 <h2>Tree!</h2>
 <div id="tree"></div>
-
+<input id="treeUrl" type="hidden" th:value="@{/tree}"/>
 <!-- TODO contents || node 用のモーダル画面を作成する -->
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal1" onclick="$('#modal1').Modal('show')">
     Launch demo modal

@@ -2,7 +2,7 @@ package ars.yukihiro.service;
 
 import ars.yukihiro.enums.NodeType;
 import ars.yukihiro.entity.Node;
-import ars.yukihiro.form.NodeForm;
+import ars.yukihiro.response.form.NodeForm;
 import ars.yukihiro.repository.NodeRepository;
 import java.util.Optional;
 import java.util.function.Supplier;

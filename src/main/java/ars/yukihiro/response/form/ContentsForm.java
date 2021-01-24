@@ -1,4 +1,4 @@
-package ars.yukihiro.form;
+package ars.yukihiro.response.form;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;

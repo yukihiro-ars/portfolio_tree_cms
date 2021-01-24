@@ -1,7 +1,7 @@
 package ars.yukihiro.controller;
 
 import ars.yukihiro.exception.ResourceNotFoundException;
-import ars.yukihiro.form.ContentsForm;
+import ars.yukihiro.response.form.ContentsForm;
 import ars.yukihiro.message.ApplicationMessageBundle;
 import ars.yukihiro.enums.ApplicationMessageId;
 import ars.yukihiro.service.ContentsService;
@@ -10,18 +10,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * contents管理コントローラ.
@@ -37,21 +34,21 @@ public class ContentsController {
     @Autowired
     private ContentsService contentsService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(path = {"/", "/{contentsId}"}, method = RequestMethod.GET)
     public ModelAndView doGet(
-            @RequestParam(required = false, name = "contentsId") Integer contentsId,
+            @PathVariable Optional<Integer> contentsId,
             ModelAndView mv) {
         try {
             ContentsForm form;
-            if (contentsId == null) {
+            if (contentsId.isEmpty()) {
                 // 新規
                 form = new ContentsForm();
             } else {
                 // 編集
-                form = contentsService.getContentsForm( contentsId);
+                form = contentsService.getContentsForm(contentsId.get());
                 if (form == null) {
                     throw new ResourceNotFoundException(
-                            String.format("contentsId:%s",  contentsId));
+                            String.format("contentsId:%s",  contentsId.get()));
                 }
             }
             mv.addObject("contentsForm", form);
@@ -68,8 +65,7 @@ public class ContentsController {
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Map<String, Object>> doPost(@Validated ContentsForm form,
-                                                      BindingResult result,
-                                                      Model model) {
+                                                      BindingResult result) {
 
         Map<String, Object> responseBody = new HashMap<>();
 

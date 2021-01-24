@@ -2,7 +2,7 @@ package ars.yukihiro.controller;
 
 import ars.yukihiro.enums.NodeType;
 import ars.yukihiro.exception.ResourceNotFoundException;
-import ars.yukihiro.form.NodeForm;
+import ars.yukihiro.response.form.NodeForm;
 import ars.yukihiro.message.ApplicationMessageBundle;
 import ars.yukihiro.enums.ApplicationMessageId;
 import ars.yukihiro.service.NodeService;
@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
@@ -20,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * node管理用のコントローラ.
@@ -36,23 +36,23 @@ public class NodeController {
     @Autowired
     private NodeService nodeService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(path = {"/", "/{nodeId}"}, method = RequestMethod.GET)
     public ModelAndView doGet(
-            @RequestParam(required = false, name = "nodeId") Integer nodeId,
+            @PathVariable Optional<Integer> nodeId,
             ModelAndView mv) {
         try {
             NodeForm form;
-            if (nodeId == null) {
+            if (nodeId.isEmpty()) {
                 // 新規
                 form = new NodeForm();
                 // 初期値
                 form.setNodeType(NodeType.INNER);
             } else {
                 // 編集
-                form = nodeService.getNodeForm(nodeId);
+                form = nodeService.getNodeForm(nodeId.get());
                 if (form == null) {
                     throw new ResourceNotFoundException(
-                            String.format("nodeId:%s", nodeId));
+                            String.format("nodeId:%s", nodeId.get()));
                 }
             }
             mv.addObject("nodeForm", form);
@@ -69,8 +69,7 @@ public class NodeController {
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Map<String, Object>> doPost(@Validated NodeForm form,
-                                                            BindingResult result,
-                                                            Model model) {
+                                                            BindingResult result) {
 
         Map<String, Object> responseBody = new HashMap<>();
 

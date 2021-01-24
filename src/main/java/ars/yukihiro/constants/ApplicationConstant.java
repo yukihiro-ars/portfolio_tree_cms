@@ -1,5 +1,8 @@
 package ars.yukihiro.constants;
 
+/**
+ * @auther yukihiro adachi
+ */
 public class ApplicationConstant {
     private ApplicationConstant() {}
 

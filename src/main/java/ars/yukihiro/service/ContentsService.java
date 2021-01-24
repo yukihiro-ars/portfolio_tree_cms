@@ -1,7 +1,7 @@
 package ars.yukihiro.service;
 
 import ars.yukihiro.entity.Contents;
-import ars.yukihiro.form.ContentsForm;
+import ars.yukihiro.response.form.ContentsForm;
 import ars.yukihiro.repository.ContentsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
