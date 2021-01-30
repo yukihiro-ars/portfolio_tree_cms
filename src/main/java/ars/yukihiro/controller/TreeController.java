@@ -2,6 +2,9 @@ package ars.yukihiro.controller;
 
 import ars.yukihiro.enums.ApplicationMessageId;
 import ars.yukihiro.message.ApplicationMessageBundle;
+import ars.yukihiro.response.form.ContentsForm;
+import ars.yukihiro.response.form.LeafContentsForm;
+import ars.yukihiro.response.form.NodeForm;
 import ars.yukihiro.service.TreeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,8 +34,12 @@ public class TreeController {
     private TreeService treeService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String view() {
-        return "tree";
+    public ModelAndView view(ModelAndView mv) {
+        mv.addObject("nodeForm", new NodeForm());
+        mv.addObject("contentsForm", new LeafContentsForm());
+        // TODO append LeafXXFrom
+        mv.setViewName("tree");
+        return mv;
     }
 
     @RequestMapping(path = "/{filter}",  method = RequestMethod.GET)

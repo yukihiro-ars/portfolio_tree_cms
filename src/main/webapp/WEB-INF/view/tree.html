@@ -10,7 +10,7 @@
     <script th:inline="javascript">
         $(document).ready(function() {
             $.ajax({
-                // TODO　フィルターの値から可変とする
+                // TODO　フィルターの値から可変とする /all
                 url : $("#treeUrl").val() + "/all",
                 method : 'get',
                 beforeSend : function () {

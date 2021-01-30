@@ -14,7 +14,7 @@
 <h2>Node!</h2>
 <div class="container">
     <form th:object="${nodeForm}" id="nodeForm" method="post" th:action="@{/node}">
-        <input th:field="*{version}" type="hidden"/>
+        <input th:field="*{nodeVersion}" type="hidden"/>
         <div class="form-group">
             <!-- ノードID -->
             <label for="nodeId">ノードID：</label>
@@ -34,7 +34,7 @@
         <div class="form-group">
             <!-- 階層 -->
             <label for="hierarchy">階層</label>
-            <input th:field="*{hierarchy}" type="text" class="form-control"/>
+            <input th:field="*{hierarchy}" type="number" class="form-control"/>
         </div>
         <div class="form-group">
             <!-- ノード名（論理） -->

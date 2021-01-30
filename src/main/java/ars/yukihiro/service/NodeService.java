@@ -44,7 +44,7 @@ public class NodeService extends AbstractService {
                 form.setNodeNmLgc(entity.getNodeNmLgc());
                 form.setNodeNmPsc(entity.getNodeNmPsc());
                 form.setContentsId(entity.getContentsId());
-                form.setVersion(entity.getVersion());
+                form.setNodeVersion(entity.getVersion());
                 return form;
             }).orElse(null);
         } catch(Exception e) {
@@ -81,7 +81,7 @@ public class NodeService extends AbstractService {
             if (optNodeId.isEmpty()) {
                 entity.setRgDt(getCurrentTimeStamp());
                 entity.setRgNm("ADMIN"); // TODO RgNm オブジェクトより取得
-            } else if (form.getVersion() != entity.getVersion()) {
+            } else if (form.getNodeVersion() != entity.getVersion()) {
                 // 楽観排他チェック
                 throw new ObjectOptimisticLockingFailureException(Node.class, optNodeId.get());
             }
