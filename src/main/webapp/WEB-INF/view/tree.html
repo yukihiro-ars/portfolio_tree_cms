@@ -11,7 +11,7 @@
         $(document).ready(function() {
             $.ajax({
                 // TODO　フィルターの値から可変とする /all
-                url : $("#treeUrl").val() + "/all",
+                url : $("#treeUrl").val() + "tree/all",
                 method : 'get',
                 beforeSend : function () {
                     // #tree 以下を削除
@@ -22,7 +22,16 @@
                 console.log(data);
                 $('#tree').treeview({
                     data : [data.data],
-                    levels : 5
+                    // showCheckbox : true,
+                    // multiSelect:true,
+                    allowDragging:true,
+                    levels : 5,
+                    onNodeSelected : function(e, data) {
+                        // TODO url の編集箇所をスッキリさせたい。
+                        var url = $("#treeUrl").val() + "node/" + data.text.split(":")[0];
+                        $('#iframeNode').attr('src', url);
+                        $('#modal1').modal('show');
+                    }
                 });
                 alert("success!!");
             }).fail(function(jqXHR) {
@@ -30,18 +39,19 @@
                 // エラーメッセージ出力
                 alert("error!!");
             });
+            // モーダル登録／更新ボタン押下イベント
+            $('#upsertBtn').on('click', function() {
+                // jqueryで生のdocumentエレメントを取得するためget(0)を使用
+                $('#iframeNode').get(0).contentWindow.doPostNode();
+            });
         });
-
     </script>
 </head>
 <body>
 <h2>Tree!</h2>
 <div id="tree"></div>
-<input id="treeUrl" type="hidden" th:value="@{/tree}"/>
-<!-- TODO contents || node 用のモーダル画面を作成する -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal1" onclick="$('#modal1').Modal('show')">
-    Launch demo modal
-</button>
+<input id="treeUrl" type="hidden" th:value="@{/}"/>
+<!-- TODO fragment 化 idを -->
 <div class="modal fade" id="modal1" tabindex="-1"
      role="dialog" aria-labelledby="label1" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -53,11 +63,13 @@
                 </button>
             </div>
             <div class="modal-body">
-                Modal body
+                <div class="iframe-responsive">
+                    <iframe id="iframeNode" frameborder="0"></iframe>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">OK</button>
+                <button type="button" class="btn btn-primary" id="upsertBtn">OK</button>
             </div>
         </div>
     </div>
