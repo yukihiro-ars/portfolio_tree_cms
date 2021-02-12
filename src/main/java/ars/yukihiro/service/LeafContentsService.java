@@ -2,6 +2,7 @@ package ars.yukihiro.service;
 
 import ars.yukihiro.entity.Contents;
 import ars.yukihiro.repository.ContentsRepository;
+import ars.yukihiro.response.form.AbstractNodeForm;
 import ars.yukihiro.response.form.LeafContentsForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,10 +35,11 @@ public class LeafContentsService extends AbstractNodeService<LeafContentsForm> {
     @Override
     public LeafContentsForm getNodeForm(Integer nodeId) {
         try {
-            LeafContentsForm form = (LeafContentsForm) findNodeForm(nodeId, LeafContentsForm::new);
-            if (Objects.isNull(form)) {
+            Optional<AbstractNodeForm> optForm = findNodeForm(nodeId, LeafContentsForm::new);
+            if (optForm.isEmpty()) {
                 return null;
             }
+            LeafContentsForm form = (LeafContentsForm) optForm.get();
             Optional<Contents> optContents = contentsRepository.findById(form.getContentsId());
             if (optContents.isEmpty()) {
                 return null;

@@ -24,7 +24,8 @@ public abstract class AbstractNodeService<T extends AbstractNodeForm> extends Ab
      * @param nodeId
      * @return
      */
-    protected AbstractNodeForm findNodeForm(Integer nodeId, Supplier<T> supplier) {
+    // TODO 戻り値をオプショナルにしてもよい。検討　戻り値の粒度を揃えたい。
+    protected Optional<AbstractNodeForm> findNodeForm(Integer nodeId, Supplier<T> supplier) {
         return nodeRepository.findById(nodeId).map(entity -> {
             AbstractNodeForm form = supplier.get();
             form.setNodeId(entity.getNodeId());
@@ -35,7 +36,7 @@ public abstract class AbstractNodeService<T extends AbstractNodeForm> extends Ab
             form.setContentsId(entity.getContentsId());
             form.setNodeVersion(entity.getVersion());
             return form;
-        }).orElse(null);
+        });
     }
 
     // TODO メソッド内でflushまでするか?、あくまでflushは実行側にまかせるか？

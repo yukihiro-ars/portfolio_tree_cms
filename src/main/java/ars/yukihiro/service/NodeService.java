@@ -23,7 +23,8 @@ public class NodeService  extends AbstractNodeService<NodeForm> {
     @Override
     public NodeForm getNodeForm(Integer nodeId) {
         try {
-            return (NodeForm) findNodeForm(nodeId, NodeForm::new);
+            return (NodeForm) findNodeForm(nodeId, NodeForm::new)
+                    .orElse(null);
         } catch(Exception e) {
             throw e;
         }
