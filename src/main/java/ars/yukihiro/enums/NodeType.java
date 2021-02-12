@@ -49,6 +49,9 @@ public enum NodeType {
         }
 
 
+        public static NodeType convertByValue(String value) {
+                return convertByValue(Integer.parseInt(value));
+        }
         /**
          * 数値から列挙型に変換する.
          * @param value
