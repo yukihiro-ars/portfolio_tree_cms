@@ -1,8 +1,9 @@
 package ars.yukihiro.response.form;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
-public class LeafContentsForm extends AbstractNodeForm {
+public class LeafContentsForm extends AbstractNodeForm implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @NotNull

@@ -5,6 +5,7 @@ import ars.yukihiro.exception.ResourceNotFoundException;
 import ars.yukihiro.response.form.NodeForm;
 import ars.yukihiro.message.ApplicationMessageBundle;
 import ars.yukihiro.enums.ApplicationMessageId;
+import ars.yukihiro.service.INodeService;
 import ars.yukihiro.service.NodeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +35,7 @@ public class NodeController {
             LoggerFactory.getLogger(NodeController.class);
 
     @Autowired
-    private NodeService nodeService;
+    private INodeService nodeService;
 
     @RequestMapping(path = {"/", "/{nodeId}"}, method = RequestMethod.GET)
     public ModelAndView doGet(
@@ -49,7 +50,7 @@ public class NodeController {
                 form.setNodeType(NodeType.INNER);
             } else {
                 // 編集
-                form = nodeService.getNodeForm(nodeId.get());
+                form = (NodeForm) nodeService.getNodeForm(nodeId.get());
                 if (form == null) {
                     throw new ResourceNotFoundException(
                             String.format("nodeId:%s", nodeId.get()));

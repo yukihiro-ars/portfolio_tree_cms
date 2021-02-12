@@ -2,9 +2,6 @@ package ars.yukihiro.controller;
 
 import ars.yukihiro.enums.ApplicationMessageId;
 import ars.yukihiro.message.ApplicationMessageBundle;
-import ars.yukihiro.response.form.ContentsForm;
-import ars.yukihiro.response.form.LeafContentsForm;
-import ars.yukihiro.response.form.NodeForm;
 import ars.yukihiro.service.TreeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,12 +31,8 @@ public class TreeController {
     private TreeService treeService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView view(ModelAndView mv) {
-        mv.addObject("nodeForm", new NodeForm());
-        mv.addObject("contentsForm", new LeafContentsForm());
-        // TODO append LeafXXFrom
-        mv.setViewName("tree");
-        return mv;
+    public String view(ModelAndView mv) {
+        return "tree";
     }
 
     @RequestMapping(path = "/{filter}",  method = RequestMethod.GET)

@@ -4,12 +4,14 @@ import ars.yukihiro.enums.NodeType;
 import ars.yukihiro.entity.Node;
 import ars.yukihiro.response.form.NodeForm;
 import ars.yukihiro.repository.NodeRepository;
+
 import java.util.Optional;
 import java.util.function.Supplier;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @atuher yukihiro adachi
  */
 @Service
-public class NodeService extends AbstractService {
+public class NodeService  extends AbstractNodeService<NodeForm> {
 
     private static final Logger logger =
             LoggerFactory.getLogger(NodeService.class);
@@ -28,9 +30,11 @@ public class NodeService extends AbstractService {
 
     @Autowired
     private NodeRepository nodeRepository;
+
     /**
      * @return NodeForm
      */
+    @Override
     public NodeForm getNodeForm(Integer nodeId) {
         try {
             return nodeRepository.findById(nodeId).map(entity -> {
@@ -55,6 +59,7 @@ public class NodeService extends AbstractService {
     /**
      * @param form
      */
+    @Override
     @Transactional
     public void upsertNodeByForm(NodeForm form) {
         try {
