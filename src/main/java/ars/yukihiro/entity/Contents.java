@@ -7,7 +7,7 @@ import java.util.Objects;
 
 @Entity
 @Table(schema = "business")
-public class Contents implements Serializable {
+public class Contents implements Serializable, IAdminEntity {
     private int contentsId;
     private String contentsVal;
     private Timestamp upDt;

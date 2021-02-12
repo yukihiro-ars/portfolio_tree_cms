@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 /**
  * Contents用サービスクラス.
@@ -23,8 +22,6 @@ import java.util.function.Supplier;
 public class LeafContentsService extends AbstractNodeService<LeafContentsForm> {
     private static final Logger logger =
             LoggerFactory.getLogger(LeafContentsService.class);
-
-    private Supplier<Contents> newContents = () -> new Contents();
 
     @Autowired
     private ContentsRepository contentsRepository;
@@ -60,31 +57,25 @@ public class LeafContentsService extends AbstractNodeService<LeafContentsForm> {
     @Transactional
     public void upsertNodeByForm(LeafContentsForm form) {
         try {
-            // TODO 楽観排他メソッドの共通化、及びentityの取得方法の改善を検討
             // TODO 処理内容精査
-            Optional<Integer> optContentsId =
-                    Optional.ofNullable(form.getContentsId());
-            Contents contents = optContentsId
-                    .map(id -> contentsRepository
-                            .findById(id)
-                            .orElseGet(newContents)) // findById null
-                    .orElseGet(newContents); // nodeId null
-            contents.setContentsVal(form.getContentsVal());
-            contents.setUpDt(getCurrentTimeStamp());
-            contents.setUpNm("ADMIN"); // TODO UpNm オブジェクトより取得
-            if (optContentsId.isEmpty()) {
-                contents.setRgDt(getCurrentTimeStamp());
-                contents.setRgNm("ADMIN"); // TODO RgNm オブジェクトより取得
-            } else if (form.getContentsVersion() != contents.getVersion()) {
+            Contents entity = findOrCreateEntity(form.getContentsId(), contentsRepository, Contents::new);
+            entity.setContentsVal(form.getContentsVal());
+
+            // 管理プロパティの設定
+            boolean isNew = Objects.isNull(form.getContentsId());
+            setAdminProperties(entity, isNew);
+            if (!isNew && form.getContentsVersion() != entity.getVersion()) {
                 // 楽観排他チェック
-                throw new ObjectOptimisticLockingFailureException(Contents.class, optContentsId.get());
+                throw new ObjectOptimisticLockingFailureException(Contents.class, form.getContentsId());
             }
-            Contents c = contentsRepository.save(contents);
+            // contentsの更新
+            entity = contentsRepository.save(entity);
             // contentsIDを設定
-            if (optContentsId.isEmpty()) {
-                form.setContentsId(c.getContentsId());
+            if (Objects.isNull(form.getContentsId())) {
+                form.setContentsId(entity.getContentsId());
             }
-            saveAndFlushNode(form);
+            // nodeの更新
+            saveNode(form);
         } catch(Exception e) {
             throw e;
         } finally {

@@ -7,7 +7,7 @@ import java.util.Objects;
 
 @Entity
 @Table(schema = "business")
-public class Node implements Serializable {
+public class Node implements Serializable, IAdminEntity {
     private int nodeId;
     private String nodeType;
     private short hierarchy;

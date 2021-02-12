@@ -5,8 +5,10 @@ import ars.yukihiro.enums.NodeType;
 import ars.yukihiro.repository.NodeRepository;
 import ars.yukihiro.response.form.AbstractNodeForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -14,8 +16,6 @@ import java.util.function.Supplier;
  * @author yukihiro adachi
  */
 public abstract class AbstractNodeService<T extends AbstractNodeForm> extends AbstractService implements INodeService<T> {
-
-    protected Supplier<Node> newNode = () -> new Node();
 
     @Autowired
     protected NodeRepository nodeRepository;
@@ -39,36 +39,33 @@ public abstract class AbstractNodeService<T extends AbstractNodeForm> extends Ab
         });
     }
 
-    // TODO メソッド内でflushまでするか?、あくまでflushは実行側にまかせるか？
-    protected Node saveAndFlushNode(AbstractNodeForm form) {
+    protected <E,ID> E findOrCreateEntity(ID id, JpaRepository<E, ID> repository, Supplier<E> supplier) {
+        Optional<ID> optId =
+                Optional.ofNullable(id);
+        return optId.map(id2 -> repository
+                .findById(id2)
+                .orElseGet(supplier)) // findById null
+        .orElseGet(supplier); // nodeId null
+    }
+
+    protected Node saveNode(AbstractNodeForm form) {
         try {
-            Optional<Integer> optNodeId =
-                    Optional.ofNullable(form.getNodeId());
-            Node entity = optNodeId.map(id -> nodeRepository
-                    .findById(id)
-                    .orElseGet(newNode)) // findById null
-                .orElseGet(newNode); // nodeId null
+            Node entity = findOrCreateEntity(form.getNodeId(), nodeRepository, Node::new);
             entity.setNodeType(String.valueOf(form.getNodeType().getValue()));
             entity.setHierarchy(form.getHierarchy());
             entity.setNodeNmLgc(form.getNodeNmLgc());
             entity.setNodeNmPsc(form.getNodeNmPsc());
             entity.setContentsId(form.getContentsId());
 
-            // TODO 楽観排他メソッドの共通化、及びentityの取得方法の改善を検討
-            entity.setUpDt(getCurrentTimeStamp());
-            entity.setUpNm("ADMIN"); // TODO UpNm オブジェクトより取得
-            if (optNodeId.isEmpty()) {
-                entity.setRgDt(getCurrentTimeStamp());
-                entity.setRgNm("ADMIN"); // TODO RgNm オブジェクトより取得
-            } else if (form.getNodeVersion() != entity.getVersion()) {
+            boolean isNew = Objects.isNull(form.getNodeId());
+            setAdminProperties(entity, isNew);
+           if (!isNew && form.getNodeVersion() != entity.getVersion()) {
                 // 楽観排他チェック
-                throw new ObjectOptimisticLockingFailureException(Node.class, optNodeId.get());
+                throw new ObjectOptimisticLockingFailureException(Node.class, form.getNodeId());
             }
             return nodeRepository.save(entity);
         } catch(Exception e) {
             throw e;
-        } finally {
-            nodeRepository.flush();
         }
     }
 }

@@ -36,6 +36,12 @@ public class NodeService  extends AbstractNodeService<NodeForm> {
     @Override
     @Transactional
     public void upsertNodeByForm(NodeForm form) {
-        saveAndFlushNode(form);
+        try {
+            saveNode(form);
+        } catch(Exception e) {
+            throw e;
+        } finally {
+            nodeRepository.flush();
+        }
     }
 }
