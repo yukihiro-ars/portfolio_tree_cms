@@ -2,7 +2,7 @@ package ars.yukihiro.entity;
 
 import java.sql.Timestamp;
 
-public interface IAdminEntity {
+public interface IAuditEntity {
 
     Timestamp getUpDt();
     void setUpDt(Timestamp upDt);

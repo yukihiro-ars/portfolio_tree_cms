@@ -1,5 +1,5 @@
 var ajaxHelper = {
-    doPost : function(form) {
+    doRequest : function(form) {
         $.ajax({
             url : form.attr("action"),
             type : form.attr("method"),

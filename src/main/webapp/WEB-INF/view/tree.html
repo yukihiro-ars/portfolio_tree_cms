@@ -28,6 +28,7 @@
                     levels : 5,
                     onNodeSelected : function(e, data) {
                         // TODO url の編集箇所をスッキリさせたい。
+                        // TODO urlはnodeType,contentsTypeより導出する必要がある。
                         var url = $("#treeUrl").val() + "node/" + data.text.split(":")[0];
                         $('#iframeNode').attr('src', url);
                         $('#modal1').modal('show');

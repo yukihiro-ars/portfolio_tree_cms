@@ -2,14 +2,14 @@
 <entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
         version="2.0">
 
-    <entity class="ars.yukihiro.entity.Contents">
-        <table name="contents" schema="business" catalog="ars"/>
+    <entity class="ars.yukihiro.entity.ContentsPlane">
+        <table name="contents_plane" schema="business" catalog="ars"/>
         <attributes>
             <id name="contentsId">
                 <column name="contents_id" precision="-1"/>
             </id>
-            <basic name="contentsType">
-                <column name="contents_type"/>
+            <basic name="contentsVal">
+                <column name="contents_val" length="140"/>
             </basic>
             <basic name="upDt">
                 <column name="up_dt" nullable="false" precision="-1"/>

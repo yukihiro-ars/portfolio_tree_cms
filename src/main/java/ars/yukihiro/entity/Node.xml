@@ -20,6 +20,9 @@
             <basic name="nodeNmPsc">
                 <column name="node_nm_psc" length="20"/>
             </basic>
+            <basic name="delFlg">
+                <column name="del_flg" nullable="false"/>
+            </basic>
             <basic name="contentsId">
                 <column name="contents_id" nullable="false" precision="-1"/>
             </basic>

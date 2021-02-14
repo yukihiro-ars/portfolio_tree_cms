@@ -1,13 +1,13 @@
 package ars.yukihiro.enums;
 
 /**
- * ノードタイプ列挙型.
+ * コンテンツタイプ列挙型.
  * @author yukihiro adachi
  */
-public enum NodeType {
+public enum ContentsType {
 
-        INTERNAL(1, "INTERNAL"),
-        LEAF(2, "LEAF");
+        PLANE(0, "PLANE"),
+        HISTORY(1, "HISTORY");
 
         // 値
         private int value;
@@ -15,26 +15,26 @@ public enum NodeType {
         private String label;
 
         /**
-         * ノードタイプのコンストラクタ.
+         * コンテンツタイプのコンストラクタ.
          * @param v 値
          * @param l ラベル
          */
-        private NodeType(int v, String l) {
+        private ContentsType(int v, String l) {
                 value = v;
                 label = l;
         }
 
         /**
-         * ノードタイプの値を返却する.
-         * @return ノードタイプ
+         * コンテンツタイプの値を返却する.
+         * @return コンテンツタイプ
          */
         public int getValue() {
                 return value;
         }
 
         /**
-         * ノードタイプ名を返却する.
-         * @return ノードタイプ名
+         * コンテンツタイプ名を返却する.
+         * @return コンテンツタイプ名
          */
         public String getLabel() {
                 return label;
@@ -49,7 +49,7 @@ public enum NodeType {
         }
 
 
-        public static NodeType convertByValue(String value) {
+        public static ContentsType convertByValue(String value) {
                 return convertByValue(Integer.parseInt(value));
         }
         /**
@@ -57,8 +57,8 @@ public enum NodeType {
          * @param value
          * @return
          */
-        public static NodeType convertByValue(Integer value) {
-                for (NodeType n : NodeType.values()) {
+        public static ContentsType convertByValue(Integer value) {
+                for (ContentsType n : ContentsType.values()) {
                         if (n.getValue() == value) {
                                 return n;
                         }

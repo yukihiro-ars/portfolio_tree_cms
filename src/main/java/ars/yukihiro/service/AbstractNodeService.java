@@ -4,6 +4,8 @@ import ars.yukihiro.entity.Node;
 import ars.yukihiro.enums.NodeType;
 import ars.yukihiro.repository.NodeRepository;
 import ars.yukihiro.response.form.AbstractNodeForm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
@@ -17,6 +19,9 @@ import java.util.function.Supplier;
  */
 public abstract class AbstractNodeService<T extends AbstractNodeForm> extends AbstractService implements INodeService<T> {
 
+    private static final Logger logger =
+            LoggerFactory.getLogger(AbstractNodeService.class);
+
     @Autowired
     protected NodeRepository nodeRepository;
 
@@ -24,7 +29,6 @@ public abstract class AbstractNodeService<T extends AbstractNodeForm> extends Ab
      * @param nodeId
      * @return
      */
-    // TODO 戻り値をオプショナルにしてもよい。検討　戻り値の粒度を揃えたい。
     protected Optional<AbstractNodeForm> findNodeForm(Integer nodeId, Supplier<T> supplier) {
         return nodeRepository.findById(nodeId).map(entity -> {
             AbstractNodeForm form = supplier.get();
@@ -58,7 +62,7 @@ public abstract class AbstractNodeService<T extends AbstractNodeForm> extends Ab
             entity.setContentsId(form.getContentsId());
 
             boolean isNew = Objects.isNull(form.getNodeId());
-            setAdminProperties(entity, isNew);
+            setAuditProperties(entity, isNew);
            if (!isNew && form.getNodeVersion() != entity.getVersion()) {
                 // 楽観排他チェック
                 throw new ObjectOptimisticLockingFailureException(Node.class, form.getNodeId());

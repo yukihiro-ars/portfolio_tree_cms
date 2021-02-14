@@ -6,10 +6,10 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@Table(schema = "business")
-public class Contents implements Serializable, IAuditEntity {
+@Table(name = "contents_plane", schema = "business", catalog = "ars")
+public class ContentsPlane implements Serializable, IAuditEntity {
     private int contentsId;
-    private String contentsType;
+    private String contentsVal;
     private Timestamp upDt;
     private String upNm;
     private Timestamp rgDt;
@@ -18,7 +18,6 @@ public class Contents implements Serializable, IAuditEntity {
 
     @Id
     @Column(name = "contents_id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getContentsId() {
         return contentsId;
     }
@@ -28,13 +27,13 @@ public class Contents implements Serializable, IAuditEntity {
     }
 
     @Basic
-    @Column(name = "contents_type", nullable = false, length = -1)
-    public String getContentsType() {
-        return contentsType;
+    @Column(name = "contents_val", nullable = false, length = 140)
+    public String getContentsVal() {
+        return contentsVal;
     }
 
-    public void setContentsType(String contentsType) {
-        this.contentsType = contentsType;
+    public void setContentsVal(String contentsVal) {
+        this.contentsVal = contentsVal;
     }
 
     @Basic
@@ -92,18 +91,18 @@ public class Contents implements Serializable, IAuditEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Contents contents = (Contents) o;
-        return contentsId == contents.contentsId &&
-                version == contents.version &&
-                Objects.equals(contentsType, contents.contentsType) &&
-                Objects.equals(upDt, contents.upDt) &&
-                Objects.equals(upNm, contents.upNm) &&
-                Objects.equals(rgDt, contents.rgDt) &&
-                Objects.equals(rgNm, contents.rgNm);
+        ContentsPlane that = (ContentsPlane) o;
+        return contentsId == that.contentsId &&
+                version == that.version &&
+                Objects.equals(contentsVal, that.contentsVal) &&
+                Objects.equals(upDt, that.upDt) &&
+                Objects.equals(upNm, that.upNm) &&
+                Objects.equals(rgDt, that.rgDt) &&
+                Objects.equals(rgNm, that.rgNm);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(contentsId, contentsType, upDt, upNm, rgDt, rgNm, version);
+        return Objects.hash(contentsId, contentsVal, upDt, upNm, rgDt, rgNm, version);
     }
 }

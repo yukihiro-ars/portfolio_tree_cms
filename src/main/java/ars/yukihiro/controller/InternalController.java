@@ -1,10 +1,11 @@
 package ars.yukihiro.controller;
 
+import ars.yukihiro.enums.NodeType;
 import ars.yukihiro.exception.ResourceNotFoundException;
-import ars.yukihiro.response.form.ContentsForm;
+import ars.yukihiro.response.form.InternalForm;
 import ars.yukihiro.message.ApplicationMessageBundle;
 import ars.yukihiro.enums.ApplicationMessageId;
-import ars.yukihiro.service.ContentsService;
+import ars.yukihiro.service.INodeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,38 +22,41 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * contents管理コントローラ.
+ * node管理用のコントローラ.
  * @auther yukihiro adachi
  */
 @Controller
-@RequestMapping("contents")
-public class ContentsController {
+@RequestMapping("internal")
+public class InternalController {
 
     private static final Logger logger =
-            LoggerFactory.getLogger(ContentsController.class);
+            LoggerFactory.getLogger(InternalController.class);
 
     @Autowired
-    private ContentsService contentsService;
+    private INodeService internalService;
 
-    @RequestMapping(path = {"/", "/{contentsId}"}, method = RequestMethod.GET)
+    @RequestMapping(path = {"/", "/{nodeId}"}, method = RequestMethod.GET)
     public ModelAndView doGet(
-            @PathVariable Optional<Integer> contentsId,
+            @PathVariable Optional<Integer> nodeId,
             ModelAndView mv) {
+
         try {
-            ContentsForm form;
-            if (contentsId.isEmpty()) {
+            InternalForm form;
+            if (nodeId.isEmpty()) {
                 // 新規
-                form = new ContentsForm();
+                form = new InternalForm();
+                // 初期値
+                form.setNodeType(NodeType.INTERNAL);
             } else {
                 // 編集
-                form = contentsService.getContentsForm(contentsId.get());
+                form = (InternalForm) internalService.getNodeForm(nodeId.get());
                 if (form == null) {
                     throw new ResourceNotFoundException(
-                            String.format("contentsId:%s",  contentsId.get()));
+                            String.format("nodeId:%s", nodeId.get()));
                 }
             }
-            mv.addObject("contentsForm", form);
-            mv.setViewName("contents");
+            mv.addObject("nodeForm", form);
+            mv.setViewName("internal");
             return mv;
         } catch (Exception e) {
             logger.error(
@@ -63,9 +67,9 @@ public class ContentsController {
     }
 
     @ResponseBody
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> doPost(@Validated ContentsForm form,
-                                                      BindingResult result) {
+    @RequestMapping(method = {RequestMethod.POST, RequestMethod.PUT} )
+    public ResponseEntity<Map<String, Object>> doPost(@Validated InternalForm form,
+                                                            BindingResult result) {
 
         Map<String, Object> responseBody = new HashMap<>();
 
@@ -76,7 +80,7 @@ public class ContentsController {
             return ResponseEntity.badRequest().body(responseBody);
         } else {
             try {
-                contentsService.upsertContentsByForm(form);
+                internalService.upsertNodeByForm(form);
                 responseBody.put("message",
                         ApplicationMessageBundle.getMessage(
                                 ApplicationMessageId.SYS_I_01, "登録／更新"));

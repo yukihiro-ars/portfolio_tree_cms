@@ -1,0 +1,37 @@
+<span xlmns:th="http://www.thymeleaf.org" th:fragment="form_fragment(formName)" >
+    <span th:object="${__${formName}__}">
+        <input th:field="*{nodeVersion}" type="hidden"/>
+        <div class="form-group">
+            <!-- ノードID -->
+            <label for="nodeId">ノードID：</label>
+            <span th:text="*{nodeId}"/>
+            <input th:field="*{nodeId}" type="hidden" class="form-control"/>
+        </div>
+        <div class="form-group">
+            <!-- ノード種別 -->
+            <label for="nodeType">ノード種別</label>
+            <select id="nodeType" name="nodeType" class="form-control">
+                <option th:each="nt : ${T(ars.yukihiro.enums.NodeType).values()}"
+                        th:value="${nt.name}"
+                        th:selected="${nt.value}==*{nodeType.value}"
+                        th:text="${nt.label}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <!-- 階層 -->
+            <label for="hierarchy">階層</label>
+            <input th:field="*{hierarchy}" type="number" class="form-control"/>
+        </div>
+        <div class="form-group">
+            <!-- ノード名（論理） -->
+            <label for="nodeNmLgc">ノード名（論理）</label>
+            <input th:field="*{nodeNmLgc}" type="text" class="form-control"/>
+        </div>
+
+        <div class="form-group">
+            <!-- ノード名（物理） -->
+            <label for="nodeNmPsc">ノード名（物理）</label>
+            <input th:field="*{nodeNmPsc}" type="text" class="form-control"/>
+        </div>
+    </span>
+</span>

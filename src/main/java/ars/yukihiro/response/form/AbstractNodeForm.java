@@ -1,11 +1,9 @@
 package ars.yukihiro.response.form;
 
 import ars.yukihiro.enums.NodeType;
-
 import javax.validation.constraints.*;
 
-public class AbstractNodeForm {
-
+public abstract class AbstractNodeForm {
     private Integer nodeId;
 
     @NotNull

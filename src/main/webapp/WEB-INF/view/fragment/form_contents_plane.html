@@ -1,0 +1,9 @@
+<span xlmns:th="http://www.thymeleaf.org" th:fragment="form_fragment(formName)" >
+    <span th:object="${__${formName}__}">
+        <div class="form-group">
+            <!-- コンテンツ値 -->
+            <label for="contentsVal">コンテンツ値</label>
+            <input th:field="*{contentsVal}" type="text" class="form-control"/>
+        </div>
+    </span>
+</span>

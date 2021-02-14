@@ -8,7 +8,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "node_relationship", schema = "business", catalog = "ars")
 @IdClass(NodeRelationshipPK.class)
-public class NodeRelationship implements Serializable, IAdminEntity {
+public class NodeRelationship implements Serializable, IAuditEntity {
     private int parentNodeId;
     private int childNodeId;
     private short sort;

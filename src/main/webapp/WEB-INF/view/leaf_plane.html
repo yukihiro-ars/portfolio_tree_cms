@@ -6,21 +6,18 @@
     <blocks></blocks>
     <script th:inline="javascript">
         function doRequestNode() {
-            ajaxHelper.doRequest($("#nodeForm"));
+            ajaxHelper.doRequest($("#planeForm"));
         };
     </script>
 </head>
 <body>
 <h2>Node!</h2>
 <div class="container">
-    <!-- 選択中のNodeType,ContentsTypeによってactionを動的に変更 -->
-    <form id="nodeForm" method="post" th:action="@{/node}">
-        <span th:replace="fragment/form_node :: form_fragment(formName = 'nodeForm')")></span>
+    <form id="planeForm" method="post" th:action="@{/leaf/plane}">
+        <span th:replace="fragment/form_node :: form_fragment(formName = 'planeForm')")></span>
         <span th:replace="fragment/form_contents :: form_fragment(formName = 'planeForm')")></span>
         <span th:replace="fragment/form_contents_plane :: form_fragment(formName = 'planeForm')")></span>
-        <!--
         <button type="button" class="btn btn-outline-primary" onclick="doRequestNode()">登録/更新</button>
-        -->
     </form>
 </div>
 </body>

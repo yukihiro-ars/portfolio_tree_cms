@@ -7,12 +7,13 @@ import java.util.Objects;
 
 @Entity
 @Table(schema = "business")
-public class Node implements Serializable, IAdminEntity {
+public class Node implements Serializable, IAuditEntity {
     private int nodeId;
     private String nodeType;
     private short hierarchy;
     private String nodeNmLgc;
     private String nodeNmPsc;
+    private String delFlg;
     private Integer contentsId;
     private Timestamp upDt;
     private String upNm;
@@ -69,6 +70,16 @@ public class Node implements Serializable, IAdminEntity {
 
     public void setNodeNmPsc(String nodeNmPsc) {
         this.nodeNmPsc = nodeNmPsc;
+    }
+
+    @Basic
+    @Column(name = "del_flg", nullable = true, length = -1)
+    public String getDelFlg() {
+        return delFlg;
+    }
+
+    public void setDelFlg(String delFlg) {
+        this.delFlg = delFlg;
     }
 
     @Basic
@@ -143,6 +154,7 @@ public class Node implements Serializable, IAdminEntity {
                 Objects.equals(nodeType, node.nodeType) &&
                 Objects.equals(nodeNmLgc, node.nodeNmLgc) &&
                 Objects.equals(nodeNmPsc, node.nodeNmPsc) &&
+                Objects.equals(delFlg, node.delFlg) &&
                 Objects.equals(contentsId, node.contentsId) &&
                 Objects.equals(upDt, node.upDt) &&
                 Objects.equals(upNm, node.upNm) &&
@@ -152,6 +164,6 @@ public class Node implements Serializable, IAdminEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(nodeId, nodeType, hierarchy, nodeNmLgc, nodeNmPsc, contentsId, upDt, upNm, rgDt, rgNm, version);
+        return Objects.hash(nodeId, nodeType, hierarchy, nodeNmLgc, nodeNmPsc, delFlg, contentsId, upDt, upNm, rgDt, rgNm, version);
     }
 }

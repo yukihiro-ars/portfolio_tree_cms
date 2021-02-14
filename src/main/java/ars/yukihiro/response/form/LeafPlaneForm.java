@@ -3,12 +3,13 @@ package ars.yukihiro.response.form;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
-public class LeafContentsForm extends AbstractNodeForm implements Serializable {
+public class LeafPlaneForm extends AbstractLeafNodeForm implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @NotNull
     private String contentsVal;
-    private Long contentsVersion;
+
+    private Long contentsPlaneVersion;
 
     public String getContentsVal() { return contentsVal; }
 
@@ -16,7 +17,11 @@ public class LeafContentsForm extends AbstractNodeForm implements Serializable {
         this.contentsVal = contentsVal;
     }
 
-    public Long getContentsVersion() { return contentsVersion; }
+    public Long getContentsPlaneVersion() {
+        return contentsPlaneVersion;
+    }
 
-    public void setContentsVersion(Long contentsVersion) { this.contentsVersion = contentsVersion; }
+    public void setContentsPlaneVersion(Long contentsPlaneVersion) {
+        this.contentsPlaneVersion = contentsPlaneVersion;
+    }
 }

@@ -12,6 +12,7 @@ import java.io.Serializable;
  * Node用のフォーム
  * @atuher yukihiro adachi
  */
-public class NodeForm extends AbstractNodeForm implements Serializable {
+// TODO InternalNodeFormに名称変更する
+public class InternalForm extends AbstractNodeForm implements Serializable {
     private static final long serialVersionUID = 1L;
 }
