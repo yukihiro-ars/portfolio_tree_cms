@@ -4,37 +4,32 @@
       xmlns:th="http://www.thymleaf.org">
 <head th:replace="fragment/head :: head_fragment(title = 'Tree画面', blocks = ~{::blocks}, script = ~{::script})">
     <blocks>
-        <script type="text/javascript" th:src="@{/lib/js/bootstrap-treeview.js}"></script>
-        <link type="text/css" th:href="@{/lib/css/bootstrap-treeview.css}"></link>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gijgo/1.9.13/combined/js/gijgo.min.js" integrity="sha512-T62eI76S3z2X8q+QaoTTn7FdKOVGjzKPjKNHw+vdAGQdcDMbxZUAKwRcGCPt0vtSbRuxNWr/BccUKYJo634ygQ==" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gijgo/1.9.13/combined/css/gijgo.min.css" integrity="sha512-oCuecFHHGu/Y4zKF8IoSoj5hQq1dLNIiUCwN08ChNW1VoMcjIIirAJT2JmKlYde6DeLN6JRSgntz6EDYDdFhCg==" crossorigin="anonymous" />
     </blocks>
     <script th:inline="javascript">
+        var localData;
         $(document).ready(function() {
             $.ajax({
                 // TODO　フィルターの値から可変とする /all
                 url : $("#treeUrl").val() + "tree/all",
                 method : 'get',
-                beforeSend : function () {
-                    // #tree 以下を削除
-                    // $("#tree .*").remove();
-                }
             }).done(function(data, status, jqXHR) {
+                localData = data.data;
                 // 取得結果の適用
-                console.log(data);
-                $('#tree').treeview({
-                    data : [data.data],
-                    // showCheckbox : true,
-                    // multiSelect:true,
-                    allowDragging:true,
-                    levels : 5,
-                    onNodeSelected : function(e, data) {
-                        // TODO url の編集箇所をスッキリさせたい。
-                        // TODO urlはnodeType,contentsTypeより導出する必要がある。
-                        var url = $("#treeUrl").val() + "node/" + data.text.split(":")[0];
+                $('#tree').tree({
+                    primaryKey: 'nodeId',
+                    uiLibrary: 'bootstrap4',
+                    dataSource: [localData],
+                    dragAndDrop: true,
+                    select: function(e, node, nodeId) {
+                        console.log(e, node, nodeId);
+                        // node type internal or else url have to changed
+                        var url = $("#treeUrl").val() + "internal/" + nodeId;
                         $('#iframeNode').attr('src', url);
                         $('#modal1').modal('show');
                     }
                 });
-                alert("success!!");
             }).fail(function(jqXHR) {
                 console.log(jqXHR);
                 // エラーメッセージ出力
@@ -43,13 +38,19 @@
             // モーダル登録／更新ボタン押下イベント
             $('#upsertBtn').on('click', function() {
                 // jqueryで生のdocumentエレメントを取得するためget(0)を使用
-                $('#iframeNode').get(0).contentWindow.doPostNode();
+                $('#iframeNode').get(0).contentWindow.doRequestNode();
             });
         });
     </script>
 </head>
 <body>
 <h2>Tree!</h2>
+<select id="mode" name="TreeMode" class="form-control" >
+    <option th:each="tt : ${T(ars.yukihiro.enums.TreeMode).values()}"
+            th:value="${tt.name}"
+            th:selected="${tt.value} == ${T(ars.yukihiro.enums.TreeMode).VIEW}"
+            th:text="${tt.label}"></option>
+</select>
 <div id="tree"></div>
 <input id="treeUrl" type="hidden" th:value="@{/}"/>
 <!-- TODO fragment 化 idを -->

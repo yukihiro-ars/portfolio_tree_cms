@@ -7,13 +7,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TreeJson {
-    @JsonIgnore
+
+    @JsonProperty("nodeId")
     private Integer nodeId;
 
     @JsonProperty("text")
     private String nodeName;
 
-    @JsonProperty("nodes")
+    /**
+     * type nodeType {nodeType}
+     * type contentsType {nodeType}_{contentsType}
+     */
+    @JsonProperty("type")
+    private String type;
+
+    @JsonProperty("children")
     private List<TreeJson> children = new ArrayList<>();
 
     public TreeJson(Integer n) {
@@ -29,7 +37,15 @@ public class TreeJson {
     }
 
     public String getNodeName() {
-        return nodeId  + ":" + "dummy"; // nodeName
+        return nodeName;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public List<TreeJson> getChildren() {
