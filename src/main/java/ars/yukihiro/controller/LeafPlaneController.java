@@ -36,7 +36,7 @@ public class LeafPlaneController {
     @Autowired
     private INodeService leafPlaneService;
 
-    @RequestMapping(path = {"/", "/{nodeId}"}, method = RequestMethod.GET)
+    @RequestMapping(path = {"/{nodeId}"}, method = RequestMethod.GET)
     public ModelAndView doGet(
             @PathVariable Optional<Integer> nodeId,
             ModelAndView mv) {

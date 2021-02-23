@@ -35,7 +35,7 @@ public class InternalController {
     @Autowired
     private INodeService internalService;
 
-    @RequestMapping(path = {"/", "/{nodeId}"}, method = RequestMethod.GET)
+    @RequestMapping(path = {"/{nodeId}"}, method = RequestMethod.GET)
     public ModelAndView doGet(
             @PathVariable Optional<Integer> nodeId,
             ModelAndView mv) {

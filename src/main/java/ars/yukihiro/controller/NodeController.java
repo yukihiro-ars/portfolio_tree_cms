@@ -21,8 +21,11 @@ public class NodeController {
     private static final Logger logger =
             LoggerFactory.getLogger(NodeController.class);
 
-    @RequestMapping(path = {"/"}, method = RequestMethod.GET)
-    public ModelAndView doGet(ModelAndView mv) {
+    // TODO URLでparentNodeIdの引継ぎが必要、各post処理内でrelationを紐づけるためにも必要。
+    @RequestMapping(path = {"/{parentNodeId}"}, method = RequestMethod.GET)
+    public ModelAndView doGet(
+            @PathVariable Integer parentNodeId,
+            ModelAndView mv) {
 
         InternalForm nodeForm = new InternalForm();
         nodeForm.setNodeType(NodeType.INTERNAL);
@@ -31,6 +34,7 @@ public class NodeController {
         LeafPlaneForm planeForm = new LeafPlaneForm();
         planeForm.setContentsType(ContentsType.PLANE);
         mv.addObject("planeForm", planeForm);
+        mv.addObject("parentNodeId", parentNodeId);
 
         mv.setViewName("node");
         return mv;

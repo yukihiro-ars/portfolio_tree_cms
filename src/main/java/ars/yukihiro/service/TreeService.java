@@ -104,15 +104,13 @@ public class TreeService extends AbstractService {
         if (optNode.isPresent()) {
             Node node = optNode.get();
             tree.setNodeName(node.getNodeNmLgc());
+            tree.setType(node.getNodeType());
             if (NodeType.LEAF.equals(NodeType.convertByValue(node.getNodeType()))) {
                 Optional<Contents> optContents = contentsList.stream()
                         .filter(e -> e.getContentsId() == node.getContentsId())
                         .findFirst();
-
                 if (optContents.isPresent()) {
                     tree.setType(node.getNodeType() + "_" + optContents.get().getContentsType());
-                } else {
-                    tree.setType(node.getNodeType());
                 }
             }
         }

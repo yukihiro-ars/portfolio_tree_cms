@@ -7,50 +7,136 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gijgo/1.9.13/combined/js/gijgo.min.js" integrity="sha512-T62eI76S3z2X8q+QaoTTn7FdKOVGjzKPjKNHw+vdAGQdcDMbxZUAKwRcGCPt0vtSbRuxNWr/BccUKYJo634ygQ==" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gijgo/1.9.13/combined/css/gijgo.min.css" integrity="sha512-oCuecFHHGu/Y4zKF8IoSoj5hQq1dLNIiUCwN08ChNW1VoMcjIIirAJT2JmKlYde6DeLN6JRSgntz6EDYDdFhCg==" crossorigin="anonymous" />
     </blocks>
-    <script th:inline="javascript">
-        var localData;
-        $(document).ready(function() {
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        const modeEnum = {
+            VIEW : /*[[${T(ars.yukihiro.enums.TreeMode).VIEW}]]*/'',
+            MOVE : /*[[${T(ars.yukihiro.enums.TreeMode).MOVE}]]*/'',
+            ADD : /*[[${T(ars.yukihiro.enums.TreeMode).ADD}]]*/'',
+            UPDATE : /*[[${T(ars.yukihiro.enums.TreeMode).UPDATE}]]*/'',
+            DELETE : /*[[${T(ars.yukihiro.enums.TreeMode).DELETE}]]*/'',
+        },
+        func = {
+            getUrl : (mode) => {
+                let arrUrl = [$("#treeUrl").val()],
+                    isAdd = modeEnum.ADD == mode,
+                    isUpdate = modeEnum.UPDATE == mode;
+                if (isAdd) {
+                    arrUrl.push("node");
+                } else if (!isUpdate) {
+                    // ADD、UPDATE以外で本メソッドの呼び出しがあった場合
+                    throw Error("IllegalCallerException");
+                }
+                return (type) => {
+                    if (isUpdate) {
+                        if (!type) { throw Error("IllegalArgumentException"); }
+                        let node = type.split("_")[0],
+                            contents = type.split("_")[1];
+                        if (node == /*[[${T(ars.yukihiro.enums.NodeType).INTERNAL.getValue()}]]*/'') {
+                            arrUrl.push("internal");
+                        } else {
+                            if (contents == /*[[${T(ars.yukihiro.enums.ContentsType).PLANE.getValue()}]]*/'') {
+                                arrUrl.push("leaf/plane");
+                            } else if (contents == /*[[${T(ars.yukihiro.enums.ContentsType).CARRIER.getValue()}]]*/'') {
+                                arrUrl.push("leaf/carrier");
+                            }
+                        }
+                    }
+                    return (nodeId) => {
+                        arrUrl.push(nodeId);
+                        return arrUrl.join("/");
+                    };
+                };
+            },
+            onSelect : (e, node, nodeId) => {
+                let rec = tree.getDataById(nodeId);
+                let url = func.getUrl(mode)(rec.type)(nodeId);
+                console.log(mode, url);
+                $('#iframeNode').attr('src', url);
+                $('#modal1').modal('show');
+            }
+        },
+        modeConfigBase = {
+            primaryKey: 'nodeId',
+            uiLibrary: 'bootstrap4',
+            selectionType: 'single',
+            dragAndDrop: false,
+        },
+        modeConfig = {
+                VIEW : Object.assign({}, modeConfigBase),
+                MOVE : Object.assign({dragAndDrop: true}, modeConfigBase),
+                ADD : Object.assign({select : func.onSelect}, modeConfigBase),
+                UPDATE : Object.assign({select : func.onSelect}, modeConfigBase),
+                DELETE : Object.assign({checkboxes:true}, modeConfigBase),
+        };
+
+        /*]]>*/
+        let localData,tree,
+            mode = modeEnum.VIEW;
+        $(document).ready(() => {
             $.ajax({
                 // TODO　フィルターの値から可変とする /all
                 url : $("#treeUrl").val() + "tree/all",
                 method : 'get',
-            }).done(function(data, status, jqXHR) {
+            }).done((data, status, jqXHR) => {
                 localData = data.data;
                 // 取得結果の適用
-                $('#tree').tree({
-                    primaryKey: 'nodeId',
-                    uiLibrary: 'bootstrap4',
-                    dataSource: [localData],
-                    dragAndDrop: true,
-                    select: function(e, node, nodeId) {
-                        console.log(e, node, nodeId);
-                        // node type internal or else url have to changed
-                        var url = $("#treeUrl").val() + "internal/" + nodeId;
-                        $('#iframeNode').attr('src', url);
-                        $('#modal1').modal('show');
-                    }
-                });
-            }).fail(function(jqXHR) {
+                tree = $('#tree').tree(
+                    Object.assign({
+                            dataSource: [localData]
+                        }, modeConfig.VIEW));
+            }).fail((jqXHR) => {
                 console.log(jqXHR);
                 // エラーメッセージ出力
                 alert("error!!");
             });
+
             // モーダル登録／更新ボタン押下イベント
-            $('#upsertBtn').on('click', function() {
+            $('#upsertBtn').on('click', () => {
                 // jqueryで生のdocumentエレメントを取得するためget(0)を使用
                 $('#iframeNode').get(0).contentWindow.doRequestNode();
+            });
+
+            $('input[type=radio][name=modeOptions]').change(function() {
+                console.log(arguments);
+                mode = this.value;
+                let treeConfig;
+                switch(this.value) {
+                    case modeEnum.VIEW:
+                        treeConfig = Object.assign({dataSource: [localData]}, modeConfig.VIEW);
+                        break;
+                    case modeEnum.MOVE:
+                        treeConfig = Object.assign({dataSource: [localData]}, modeConfig.MOVE);
+                        break;
+                    case modeEnum.ADD:
+                        treeConfig = Object.assign({dataSource: [localData]}, modeConfig.ADD);
+                        break;
+                    case modeEnum.UPDATE:
+                        treeConfig = Object.assign({dataSource: [localData]}, modeConfig.UPDATE);
+                        break;
+                    case modeEnum.DELETE:
+                        treeConfig = Object.assign({dataSource: [localData]}, modeConfig.DELETE);
+                        break;
+                    default:
+                        throw Error("IllegalArgumentException : " + this.value);
+                }
+                tree.destroy();
+                // TODO reloadの挙動確認
+                tree = $('#tree').tree(treeConfig);
             });
         });
     </script>
 </head>
 <body>
 <h2>Tree!</h2>
-<select id="mode" name="TreeMode" class="form-control" >
-    <option th:each="tt : ${T(ars.yukihiro.enums.TreeMode).values()}"
-            th:value="${tt.name}"
-            th:selected="${tt.value} == ${T(ars.yukihiro.enums.TreeMode).VIEW}"
-            th:text="${tt.label}"></option>
-</select>
+<div class="btn-group btn-group-toggle" data-toggle="buttons" aria-label="操作モード選択">
+    <th:block th:each="tt : ${T(ars.yukihiro.enums.TreeMode).values()}">
+        <label class="btn btn-primary">
+            <input type="radio" th:class="${tt.name}" name="modeOptions" th:value="${tt.name}" th:id="${tt.name}" autocomplete="off" th:checked="${tt.name} == ${T(ars.yukihiro.enums.TreeMode).VIEW.name()}">[[${tt.Label}]]
+        </label>
+    </th:block>
+</div>
+
 <div id="tree"></div>
 <input id="treeUrl" type="hidden" th:value="@{/}"/>
 <!-- TODO fragment 化 idを -->

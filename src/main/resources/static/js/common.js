@@ -1,22 +1,23 @@
-var ajaxHelper = {
-    doRequest : function(form) {
+const ajaxHelper = {
+    doRequest : (form) => {
         $.ajax({
             url : form.attr("action"),
             type : form.attr("method"),
             data : form.serialize(),
             contentType : "application/x-www-form-urlencoded",
-            beforeSend : function () {
+            beforeSend : () => {
                 $(".errorMsg").remove();
             }
-        }).done(function() {
-            // TODO 処理成功時のメッセージ
+        }).done(() => {
             console.log(arguments);
+            // TODO 処理成功時のメッセージ
             alert("success!!");
-        }).fail(function(jqXHR) {
+        }).fail((jqXHR) => {
             // エラーメッセージ出力
             if (jqXHR && jqXHR.responseJSON) {
-                Object.keys(jqXHR.responseJSON)
-                    .map(function(elm, idx, arr) {
+                Object
+                    .keys(jqXHR.responseJSON)
+                    .map((elm, idx, arr) => {
                         $("#"+ elm).after(
                             "<span class='errorMsg'>"
                             + jqXHR.responseJSON[elm]
@@ -24,6 +25,7 @@ var ajaxHelper = {
                     });
                 console.log(jqXHR.responseJSON);
             }
+            // TODO システムエラーのハンドリングを検討
             alert("error!!");
         });
     }

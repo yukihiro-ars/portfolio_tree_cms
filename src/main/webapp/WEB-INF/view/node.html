@@ -15,6 +15,7 @@
 <div class="container">
     <!-- 選択中のNodeType,ContentsTypeによってactionを動的に変更 -->
     <form id="nodeForm" method="post" th:action="@{/node}">
+        <input th:field="${parentNodeId}" type="hidden"/><!-- TODO parentNodeIdの立ち位置を検討 -->
         <span th:replace="fragment/form_node :: form_fragment(formName = 'nodeForm')")></span>
         <span th:replace="fragment/form_contents :: form_fragment(formName = 'planeForm')")></span>
         <span th:replace="fragment/form_contents_plane :: form_fragment(formName = 'planeForm')")></span>

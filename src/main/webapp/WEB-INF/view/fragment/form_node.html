@@ -13,7 +13,7 @@
             <select id="nodeType" name="nodeType" class="form-control">
                 <option th:each="nt : ${T(ars.yukihiro.enums.NodeType).values()}"
                         th:value="${nt.name}"
-                        th:selected="${nt.value}==*{nodeType.value}"
+                        th:selected="${nt.name}==*{nodeType.name}"
                         th:text="${nt.label}"></option>
             </select>
         </div>

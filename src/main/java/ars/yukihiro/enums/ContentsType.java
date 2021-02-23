@@ -7,7 +7,7 @@ package ars.yukihiro.enums;
 public enum ContentsType {
 
         PLANE(0, "PLANE"),
-        HISTORY(1, "HISTORY");
+        CARRIER(1, "CARRIER");
 
         // 値
         private int value;
