@@ -51,7 +51,6 @@
             onSelect : (e, node, nodeId) => {
                 let rec = tree.getDataById(nodeId);
                 let url = func.getUrl(mode)(rec.type)(nodeId);
-                console.log(mode, url);
                 $('#iframeNode').attr('src', url);
                 $('#modal1').modal('show');
             }
@@ -60,7 +59,6 @@
             primaryKey: 'nodeId',
             uiLibrary: 'bootstrap4',
             selectionType: 'single',
-            dragAndDrop: false,
         },
         modeConfig = {
                 VIEW : Object.assign({}, modeConfigBase),
@@ -71,8 +69,10 @@
         };
 
         /*]]>*/
-        let localData,tree,
+        let localData,
+            tree,
             mode = modeEnum.VIEW;
+
         $(document).ready(() => {
             $.ajax({
                 // TODO　フィルターの値から可変とする /all
@@ -85,6 +85,7 @@
                     Object.assign({
                             dataSource: [localData]
                         }, modeConfig.VIEW));
+                tree.expandAll();
             }).fail((jqXHR) => {
                 console.log(jqXHR);
                 // エラーメッセージ出力
@@ -123,6 +124,7 @@
                 tree.destroy();
                 // TODO reloadの挙動確認
                 tree = $('#tree').tree(treeConfig);
+                tree.expandAll();
             });
         });
     </script>

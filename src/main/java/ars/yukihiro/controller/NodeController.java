@@ -34,6 +34,7 @@ public class NodeController {
         LeafPlaneForm planeForm = new LeafPlaneForm();
         planeForm.setContentsType(ContentsType.PLANE);
         mv.addObject("planeForm", planeForm);
+        // TODO parentNodeId の扱い検討
         mv.addObject("parentNodeId", parentNodeId);
 
         mv.setViewName("node");
