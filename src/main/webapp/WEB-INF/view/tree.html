@@ -131,6 +131,8 @@
 </head>
 <body>
 <h2>Tree!</h2>
+
+<!-- toggle mode -->
 <div class="btn-group btn-group-toggle" data-toggle="buttons" aria-label="操作モード選択">
     <th:block th:each="tt : ${T(ars.yukihiro.enums.TreeMode).values()}">
         <label class="btn btn-primary">
@@ -139,30 +141,12 @@
     </th:block>
 </div>
 
+<!-- tree -->
 <div id="tree"></div>
 <input id="treeUrl" type="hidden" th:value="@{/}"/>
-<!-- TODO fragment 化 idを -->
-<div class="modal fade" id="modal1" tabindex="-1"
-     role="dialog" aria-labelledby="label1" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="label1">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="iframe-responsive">
-                    <iframe id="iframeNode" frameborder="0"></iframe>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="upsertBtn">OK</button>
-            </div>
-        </div>
-    </div>
-</div>
+
+<!-- node modal -->
+<div th:replace="fragment/modal_node :: modal_fragment(iframeId = 'iframeNode')")></div>
+
 </body>
 </html>
