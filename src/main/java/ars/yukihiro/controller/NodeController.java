@@ -28,14 +28,13 @@ public class NodeController {
             ModelAndView mv) {
 
         InternalForm nodeForm = new InternalForm();
+        nodeForm.setParentNodeId(parentNodeId);
         nodeForm.setNodeType(NodeType.INTERNAL);
         mv.addObject("nodeForm", nodeForm);
 
         LeafPlaneForm planeForm = new LeafPlaneForm();
         planeForm.setContentsType(ContentsType.PLANE);
         mv.addObject("planeForm", planeForm);
-        // TODO parentNodeId の扱い検討
-        mv.addObject("parentNodeId", parentNodeId);
 
         mv.setViewName("node");
         return mv;

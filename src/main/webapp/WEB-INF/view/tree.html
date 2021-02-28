@@ -18,7 +18,7 @@
         },
         func = {
             getUrl : (mode) => {
-                let arrUrl = [$("#treeUrl").val()],
+                let arrUrl = ["", StringHelper.trimSlash($("#treeUrl").val())],
                     isAdd = modeEnum.ADD == mode,
                     isUpdate = modeEnum.UPDATE == mode;
                 if (isAdd) {

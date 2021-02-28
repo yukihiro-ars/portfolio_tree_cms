@@ -59,7 +59,6 @@ public class TreeService extends AbstractService {
 
         List<Contents> contentsList = contentsRepository.findAllById(contentsIds);
 
-        // NodeRelationshipRepositoryHelper.isRootNode(0));
         // TODO ルートをDBで持つか、定数で定義するか、プロパティで定義するか.
         TreeJson root = new TreeJson(ApplicationConstant.ROOT_NODE_ID);
         root.setNodeName(ApplicationConstant.ROOT_NODE_NM);
@@ -81,7 +80,7 @@ public class TreeService extends AbstractService {
                 .map(e -> new TreeJson(e.getChildNodeId()))
                 .collect(Collectors.toList());
         parentTree.setChildren(children);
-;
+
         // 親IDを除いたリスト
         List<NodeRelationship> nextList = list.stream()
                         .filter(Predicate.not(isParentNode))

@@ -9,7 +9,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 public class NodeRelationshipRepositoryHelper {
-    public static Specification<NodeRelationship> isRootNode(Integer parentNodeId) {
+    public static Specification<NodeRelationship> parentNodeIdIs(Integer parentNodeId) {
         return new Specification<NodeRelationship>() {
             @Override
             public Predicate toPredicate(Root<NodeRelationship> root,

@@ -1,21 +1,20 @@
-<span xlmns:th="http://www.thymeleaf.org" th:fragment="form_fragment(formName)" >
-    <span th:object="${__${formName}__}">
-        <input th:field="*{contentsVersion}" type="hidden"/>
-        <div class="form-group">
-            <!-- コンテンツID -->
-            <label for="contentsId">コンテンツID：</label>
-            <span th:text="*{contentsId}"/>
-            <input th:field="*{contentsId}" type="hidden" class="form-control"/>
-        </div>
-        <div class="form-group">
-            <!-- コンテンツ種別 -->
-            <label for="contentsType">コンテンツ種別</label>
-            <select id="contentsType" name="contentsType" class="form-control">
-                <option th:each="ct : ${T(ars.yukihiro.enums.ContentsType).values()}"
-                        th:value="${ct.name}"
-                        th:selected="${ct.value}==*{contentsType.value}"
-                        th:text="${ct.label}"></option>
-            </select>
-        </div>
-    </span>
+<span xlmns:th="http://www.thymeleaf.org" th:fragment="form_fragment(formName)"
+      th:object="${__${formName}__}" id="formContentsGroup">
+    <input th:field="*{contentsVersion}" type="hidden"/>
+    <div class="form-group">
+        <!-- コンテンツID -->
+        <label for="contentsId">コンテンツID：</label>
+        <span th:text="*{contentsId}"/>
+        <input th:field="*{contentsId}" type="hidden" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <!-- コンテンツ種別 -->
+        <label for="contentsType">コンテンツ種別</label>
+        <select id="contentsType" name="contentsType" class="form-control">
+            <option th:each="ct : ${T(ars.yukihiro.enums.ContentsType).values()}"
+                    th:value="${ct.name}"
+                    th:selected="${ct.value}==*{contentsType.value}"
+                    th:text="${ct.label}"></option>
+        </select>
+    </div>
 </span>

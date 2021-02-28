@@ -4,6 +4,9 @@ import ars.yukihiro.enums.NodeType;
 import javax.validation.constraints.*;
 
 public abstract class AbstractNodeForm {
+
+    private Integer parentNodeId;
+
     private Integer nodeId;
 
     @NotNull
@@ -24,6 +27,14 @@ public abstract class AbstractNodeForm {
     private Integer contentsId;
 
     private Long nodeVersion;
+
+    public Integer getParentNodeId() {
+        return parentNodeId;
+    }
+
+    public void setParentNodeId(Integer parentNodeId) {
+        this.parentNodeId = parentNodeId;
+    }
 
     public Integer getNodeId() {
         return nodeId;

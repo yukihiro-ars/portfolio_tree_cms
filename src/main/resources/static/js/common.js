@@ -1,7 +1,7 @@
 const ajaxHelper = {
-    doRequest : (form) => {
+    doRequest : (form, url) => {
         $.ajax({
-            url : form.attr("action"),
+            url : url ? url : form.attr("action"),
             type : form.attr("method"),
             data : form.serialize(),
             contentType : "application/x-www-form-urlencoded",
@@ -9,10 +9,9 @@ const ajaxHelper = {
                 $(".errorMsg").remove();
             }
         }).done(() => {
-            console.log(arguments);
-            // TODO 処理成功時のメッセージ
             alert("success!!");
         }).fail((jqXHR) => {
+            console.log(jqXHR);
             // エラーメッセージ出力
             if (jqXHR && jqXHR.responseJSON) {
                 Object
@@ -28,5 +27,12 @@ const ajaxHelper = {
             // TODO システムエラーのハンドリングを検討
             alert("error!!");
         });
+    }
+},
+StringHelper = {
+    trimSlash : (path) => {
+        let st = path.startsWith("/") ? 1 : 0,
+            ed = path.endsWith("/") ? path.length - (1 + st) : path.length;
+        return path.substr(st, ed);
     }
 };

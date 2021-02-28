@@ -5,17 +5,86 @@
 <head th:replace="fragment/head :: head_fragment(title = 'Node画面', blocks = ~{::blocks}, script = ~{::script})")>
     <blocks></blocks>
     <script th:inline="javascript">
+
+        /*<![CDATA[*/
+        const nodeEnum = {
+                INTERNAL : /*[[${T(ars.yukihiro.enums.NodeType).INTERNAL}]]*/'',
+                LEAF : /*[[${T(ars.yukihiro.enums.NodeType).LEAF}]]*/'',
+            },
+            contentsEnum = {
+                PLANE : /*[[${T(ars.yukihiro.enums.ContentsType).PLANE}]]*/'',
+                CARRIER : /*[[${T(ars.yukihiro.enums.ContentsType).CARRIER}]]*/'',
+            },
+            getUrl = function() {
+                // TODO ["" 始まりはカッコ悪い、、先頭にスラッシュつける術を見直す。
+                let paths = ["", StringHelper.trimSlash($("#nodeForm").attr("action"))];
+                switch($("#nodeType").val()) {
+                    case nodeEnum.INTERNAL:
+                        paths.push("internal");
+                        break;
+                    case nodeEnum.LEAF:
+                        paths.push("leaf");
+                        switch($("#contentsType").val()) {
+                            case contentsEnum.PLANE:
+                                paths.push("plane");
+                                break;
+                            case contentsEnum.CARRIER:
+                                paths.push("carrier");
+                                break;
+                        }
+                        break;
+                }
+                return paths.join("/");
+            };
+        /*]]>*/
+
         function doRequestNode() {
-            ajaxHelper.doRequest($("#nodeForm"));
-        };
+            console.log(getUrl());
+            ajaxHelper.doRequest($("#nodeForm"), getUrl());
+        }
+
+       $(document).ready(() => {
+           // TODO 下記のコード量減らしたい
+           $("#formContentsGroup").hide();
+           $("#formContentsPlaneGroup").hide();
+
+           // NodeType Change
+           $("#nodeType").change(function() {
+               switch($("#nodeType").val()) {
+                   case nodeEnum.INTERNAL:
+                       $("#formContentsGroup").hide();
+                       $("#formContentsPlaneGroup").hide();
+                       break;
+                   case nodeEnum.LEAF:
+                       $("#formContentsGroup").show();
+                       $("#nodeType option[value=PLANE]").prop("selected", true);
+                       $("#formContentsPlaneGroup").show();
+                       break;
+               }
+           });
+
+           // ContentsType Change
+           $("#contentsType").change(function() {
+               switch($("#contentsType").val()) {
+                   case contentsEnum.PLANE:
+                       $("#formContentsGroup").show();
+                       $("#formContentsPlaneGroup").show();
+                       break;
+                   case contentsEnum.CARRIER:
+                       $("#formContentsGroup").show();
+                       $("#formContentsPlaneGroup").hide();
+                       // TODO carrier用のform作成
+                       break;
+               }
+           });
+       });
     </script>
 </head>
 <body>
 <h2>Node!</h2>
 <div class="container">
     <!-- 選択中のNodeType,ContentsTypeによってactionを動的に変更 -->
-    <form id="nodeForm" method="post" th:action="@{/node}">
-        <input th:field="${parentNodeId}" type="hidden"/><!-- TODO parentNodeIdの立ち位置を検討 -->
+    <form id="nodeForm" method="post" th:action="@{/}">
         <span th:replace="fragment/form_node :: form_fragment(formName = 'nodeForm')")></span>
         <span th:replace="fragment/form_contents :: form_fragment(formName = 'planeForm')")></span>
         <span th:replace="fragment/form_contents_plane :: form_fragment(formName = 'planeForm')")></span>
