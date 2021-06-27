@@ -6,7 +6,7 @@ import ars.yukihiro.entity.NodeRelationshipPK;
 import ars.yukihiro.enums.NodeType;
 import ars.yukihiro.repository.NodeRelationshipRepository;
 import ars.yukihiro.repository.NodeRepository;
-import ars.yukihiro.repository.helper.NodeRelationshipRepositoryHelper;
+import ars.yukihiro.repository.helper.NodeRelationshipRepositoryConditioningHelper;
 import ars.yukihiro.response.form.AbstractNodeForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -118,7 +118,7 @@ public abstract class AbstractNodeService<T extends AbstractNodeForm> extends Ab
         // parentNodeIdに紐づく関連付け情報を取得
         List<NodeRelationship> children =
                 nodeRelationshipRepository.findAll(
-                        NodeRelationshipRepositoryHelper.parentNodeIdIs(
+                        NodeRelationshipRepositoryConditioningHelper.parentNodeIdIs(
                                 key.getParentNodeId()));
         // 登録済み判定
         boolean hasAlready = children

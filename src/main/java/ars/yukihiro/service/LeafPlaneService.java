@@ -2,7 +2,9 @@ package ars.yukihiro.service;
 
 import ars.yukihiro.entity.Contents;
 import ars.yukihiro.entity.ContentsPlane;
+import ars.yukihiro.enums.ApplicationMessageId;
 import ars.yukihiro.enums.ContentsType;
+import ars.yukihiro.message.ApplicationMessageBundle;
 import ars.yukihiro.repository.ContentsPlaneRepository;
 import ars.yukihiro.repository.ContentsRepository;
 import ars.yukihiro.response.form.AbstractNodeForm;
@@ -45,7 +47,9 @@ public class LeafPlaneService extends AbstractNodeService<LeafPlaneForm> {
             LeafPlaneForm form = (LeafPlaneForm) optForm.get();
             // コンテンツIDのないノードリクエストの場合
             if (Objects.isNull(form.getContentsId())) {
-                throw new IllegalArgumentException("コンテンツを持たないノードデータへのリクエストです。");
+                throw new IllegalArgumentException(
+                        ApplicationMessageBundle.getMessage(
+                                ApplicationMessageId.M10_E_01));
             }
             // CONTENTS
             Optional<Contents> optContents = contentsRepository.findById(form.getContentsId());

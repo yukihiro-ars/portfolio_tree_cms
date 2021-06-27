@@ -75,7 +75,7 @@
 
         $(document).ready(() => {
             $.ajax({
-                // TODO　フィルターの値から可変とする /all
+                // TODO　フィルターの値からリクエスト先を変更する /all
                 url : $("#treeUrl").val() + "tree/all",
                 method : 'get',
             }).done((data, status, jqXHR) => {

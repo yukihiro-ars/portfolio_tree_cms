@@ -7,7 +7,8 @@ package ars.yukihiro.enums;
 public enum ApplicationMessageId {
 
     SYS_E_01("SYS_E_01"),
-    SYS_I_01("SYS_I_01");
+    SYS_I_01("SYS_I_01"),
+    M10_E_01("M10_E_01");
 
     private String key;
 
