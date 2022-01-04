@@ -1,6 +1,6 @@
 package ars.yukihiro.service;
 
-import ars.yukihiro.response.form.InternalForm;
+import ars.yukihiro.response.form.BranchForm;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,20 +11,19 @@ import org.springframework.transaction.annotation.Transactional;
  * Node用サービスクラス.
  * @atuher yukihiro adachi
  */
-// TODO InternalNodeServiceに名称変更する
 @Service
-public class InternalService extends AbstractNodeService<InternalForm> {
+public class BranchService extends AbstractNodeService<BranchForm> {
 
     private static final Logger logger =
-            LoggerFactory.getLogger(InternalService.class);
+            LoggerFactory.getLogger(BranchService.class);
 
     /**
      * @return NodeForm
      */
     @Override
-    public InternalForm getNodeForm(Integer nodeId) {
+    public BranchForm getNodeForm(Integer nodeId) {
         try {
-            return (InternalForm) findNodeForm(nodeId, InternalForm::new)
+            return (BranchForm) findNodeForm(nodeId, BranchForm::new)
                     .orElse(null);
         } catch(Exception e) {
             throw e;
@@ -36,7 +35,7 @@ public class InternalService extends AbstractNodeService<InternalForm> {
      */
     @Override
     @Transactional
-    public void upsertNodeByForm(InternalForm form) {
+    public void upsertNodeByForm(BranchForm form) {
         try {
             saveNode(form);
         } catch(Exception e) {

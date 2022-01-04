@@ -2,7 +2,7 @@ package ars.yukihiro.controller;
 
 import ars.yukihiro.enums.ContentsType;
 import ars.yukihiro.enums.NodeType;
-import ars.yukihiro.response.form.InternalForm;
+import ars.yukihiro.response.form.BranchForm;
 import ars.yukihiro.response.form.LeafPlaneForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,9 +27,9 @@ public class NodeController {
             @PathVariable Integer parentNodeId,
             ModelAndView mv) {
 
-        InternalForm nodeForm = new InternalForm();
+        BranchForm nodeForm = new BranchForm();
         nodeForm.setParentNodeId(parentNodeId);
-        nodeForm.setNodeType(NodeType.INTERNAL);
+        nodeForm.setNodeType(NodeType.BRANCH);
         mv.addObject("nodeForm", nodeForm);
 
         LeafPlaneForm planeForm = new LeafPlaneForm();

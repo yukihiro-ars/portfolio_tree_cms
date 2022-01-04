@@ -6,7 +6,7 @@ package ars.yukihiro.enums;
  */
 public enum NodeType {
 
-        INTERNAL(1, "INTERNAL"),
+        BRANCH(1, "BRANCH"),
         LEAF(2, "LEAF");
 
         // 値

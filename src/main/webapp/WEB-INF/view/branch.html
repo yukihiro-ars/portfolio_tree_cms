@@ -11,9 +11,9 @@
     </script>
 </head>
 <body>
-<h2>Internal Node!</h2>
+<h2>Branch Node!</h2>
 <div class="container">
-    <form id="nodeForm" method="post" th:action="@{/internal}">
+    <form id="nodeForm" method="post" th:action="@{/branch}">
         <span th:replace="fragment/form_node :: form_fragment(formName = 'nodeForm')")></span>
         <button type="button" class="btn btn-outline-primary" onclick="doRequestNode()">登録/更新</button>
     </form>

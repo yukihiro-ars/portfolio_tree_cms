@@ -45,7 +45,7 @@ public class LeafPlaneController {
             if (nodeId.isEmpty()) {
                 // 新規
                 form = new LeafPlaneForm();
-                form.setNodeType(NodeType.INTERNAL);
+                form.setNodeType(NodeType.BRANCH);
                 form.setContentsType(ContentsType.PLANE);
             } else {
                 // 編集

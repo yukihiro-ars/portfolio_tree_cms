@@ -32,8 +32,8 @@
                         if (!type) { throw Error("IllegalArgumentException"); }
                         let node = type.split("_")[0],
                             contents = type.split("_")[1];
-                        if (node == /*[[${T(ars.yukihiro.enums.NodeType).INTERNAL.getValue()}]]*/'') {
-                            arrUrl.push("internal");
+                        if (node == /*[[${T(ars.yukihiro.enums.NodeType).BRANCH.getValue()}]]*/'') {
+                            arrUrl.push("branch");
                         } else {
                             if (contents == /*[[${T(ars.yukihiro.enums.ContentsType).PLANE.getValue()}]]*/'') {
                                 arrUrl.push("leaf/plane");

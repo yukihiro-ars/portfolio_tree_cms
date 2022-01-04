@@ -8,7 +8,7 @@
 
         /*<![CDATA[*/
         const nodeEnum = {
-                INTERNAL : /*[[${T(ars.yukihiro.enums.NodeType).INTERNAL}]]*/'',
+                BRANCH : /*[[${T(ars.yukihiro.enums.NodeType).BRANCH}]]*/'',
                 LEAF : /*[[${T(ars.yukihiro.enums.NodeType).LEAF}]]*/'',
             },
             contentsEnum = {
@@ -19,8 +19,8 @@
                 // TODO ["" 始まりはカッコ悪い、、先頭にスラッシュつける術を見直す。
                 let paths = ["", StringHelper.trimSlash($("#nodeForm").attr("action"))];
                 switch($("#nodeType").val()) {
-                    case nodeEnum.INTERNAL:
-                        paths.push("internal");
+                    case nodeEnum.BRANCH:
+                        paths.push("branch");
                         break;
                     case nodeEnum.LEAF:
                         paths.push("leaf");
@@ -51,7 +51,7 @@
            // NodeType Change
            $("#nodeType").change(function() {
                switch($("#nodeType").val()) {
-                   case nodeEnum.INTERNAL:
+                   case nodeEnum.BRANCH:
                        $("#formContentsGroup").hide();
                        $("#formContentsPlaneGroup").hide();
                        break;
