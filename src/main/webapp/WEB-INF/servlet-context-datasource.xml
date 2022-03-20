@@ -18,7 +18,7 @@
     <!-- site owner EntityManagerFactory -->
     <bean id="soEntityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="soDataSource"/>
-        <property name="packagesToScan" value="ars.yukihiro.entity"/>
+        <property name="packagesToScan" value="ars.yukihiro.portfolio.tree.cms.entity"/>
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
                 <property name="showSql" value="true"/>
@@ -36,7 +36,7 @@
 
     <tx:annotation-driven transaction-manager="txManager"></tx:annotation-driven>
 
-    <jpa:repositories base-package="ars.yukihiro.repository"
+    <jpa:repositories base-package="ars.yukihiro.portfolio.tree.cms.repository"
                       entity-manager-factory-ref="soEntityManagerFactory"
                       transaction-manager-ref="txManager"/>
 

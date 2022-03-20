@@ -22,7 +22,7 @@
     </appender>
 
     <!-- LOGGER -->
-    <logger name="ars.yukihiro" level="DEBUG">
+    <logger name="ars.yukihiro.portfolio.tree.cms" level="DEBUG">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE"/>
     </logger>

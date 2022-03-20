@@ -11,7 +11,7 @@
         <!-- コンテンツ種別 -->
         <label for="contentsType">コンテンツ種別</label>
         <select id="contentsType" name="contentsType" class="form-control">
-            <option th:each="ct : ${T(ars.yukihiro.enums.ContentsType).values()}"
+            <option th:each="ct : ${T(ars.yukihiro.portfolio.tree.cms.enums.ContentsType).values()}"
                     th:value="${ct.name}"
                     th:selected="${ct.value}==*{contentsType.value}"
                     th:text="${ct.label}"></option>

@@ -5,12 +5,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>ars.yukihiro</groupId>
-  <artifactId>profile.site.app</artifactId>
+  <artifactId>portfolio.tree.cms</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
 
-  <name>profile.site.app Maven Webapp</name>
-  <url>https://github.com/yukihiro-ars/profile_site_app</url>
+  <name>portfolio.tree.cms Maven Webapp</name>
+  <url>https://github.com/yukihiro-ars/portfolio_tree_cms</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -167,7 +167,7 @@
   </dependencies>
 
   <build>
-    <finalName>profile.site.app</finalName>
+    <finalName>portfolio.tree.cms</finalName>
     <!-- see super pom implements http://maven.apache.org/ref/3.6.3/maven-model-builder/super-pom.html -->
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>

@@ -10,11 +10,11 @@
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         const modeEnum = {
-            VIEW : /*[[${T(ars.yukihiro.enums.TreeMode).VIEW}]]*/'',
-            MOVE : /*[[${T(ars.yukihiro.enums.TreeMode).MOVE}]]*/'',
-            ADD : /*[[${T(ars.yukihiro.enums.TreeMode).ADD}]]*/'',
-            UPDATE : /*[[${T(ars.yukihiro.enums.TreeMode).UPDATE}]]*/'',
-            DELETE : /*[[${T(ars.yukihiro.enums.TreeMode).DELETE}]]*/'',
+            VIEW : /*[[${T(ars.yukihiro.portfolio.tree.cms.enums.TreeMode).VIEW}]]*/'',
+            MOVE : /*[[${T(ars.yukihiro.portfolio.tree.cms.enums.TreeMode).MOVE}]]*/'',
+            ADD : /*[[${T(ars.yukihiro.portfolio.tree.cms.enums.TreeMode).ADD}]]*/'',
+            UPDATE : /*[[${T(ars.yukihiro.portfolio.tree.cms.enums.TreeMode).UPDATE}]]*/'',
+            DELETE : /*[[${T(ars.yukihiro.portfolio.tree.cms.enums.TreeMode).DELETE}]]*/'',
         },
         func = {
             getUrl : (mode) => {
@@ -32,12 +32,12 @@
                         if (!type) { throw Error("IllegalArgumentException"); }
                         let node = type.split("_")[0],
                             contents = type.split("_")[1];
-                        if (node == /*[[${T(ars.yukihiro.enums.NodeType).BRANCH.getValue()}]]*/'') {
+                        if (node == /*[[${T(ars.yukihiro.portfolio.tree.cms.enums.NodeType).BRANCH.getValue()}]]*/'') {
                             arrUrl.push("branch");
                         } else {
-                            if (contents == /*[[${T(ars.yukihiro.enums.ContentsType).PLANE.getValue()}]]*/'') {
+                            if (contents == /*[[${T(ars.yukihiro.portfolio.tree.cms.enums.ContentsType).PLANE.getValue()}]]*/'') {
                                 arrUrl.push("leaf/plane");
-                            } else if (contents == /*[[${T(ars.yukihiro.enums.ContentsType).CARRIER.getValue()}]]*/'') {
+                            } else if (contents == /*[[${T(ars.yukihiro.portfolio.tree.cms.enums.ContentsType).CARRIER.getValue()}]]*/'') {
                                 arrUrl.push("leaf/carrier");
                             }
                         }
@@ -85,6 +85,19 @@
                     Object.assign({
                             dataSource: [localData]
                         }, modeConfig.VIEW));
+
+                function recNode(pre, crr) {
+                    if (crr.children.length == 0) {
+                        pre.push(crr.nodeId);
+                    } else {
+                        let arr = [];
+                        arr.push(crr.nodeId);
+                        arr.push(crr.children.reduce(recNode, []));
+                        pre.push(arr);
+                    }
+                    return pre;
+                };
+                console.log("tree.data::",tree.getAll().reduce(recNode, []));
                 tree.expandAll();
             }).fail((jqXHR) => {
                 console.log(jqXHR);
@@ -134,9 +147,9 @@
 
 <!-- toggle mode -->
 <div class="btn-group btn-group-toggle" data-toggle="buttons" aria-label="操作モード選択">
-    <th:block th:each="tt : ${T(ars.yukihiro.enums.TreeMode).values()}">
+    <th:block th:each="tt : ${T(ars.yukihiro.portfolio.tree.cms.enums.TreeMode).values()}">
         <label class="btn btn-primary">
-            <input type="radio" th:class="${tt.name}" name="modeOptions" th:value="${tt.name}" th:id="${tt.name}" autocomplete="off" th:checked="${tt.name} == ${T(ars.yukihiro.enums.TreeMode).VIEW.name()}">[[${tt.Label}]]
+            <input type="radio" th:class="${tt.name}" name="modeOptions" th:value="${tt.name}" th:id="${tt.name}" autocomplete="off" th:checked="${tt.name} == ${T(ars.yukihiro.portfolio.tree.cms.enums.TreeMode).VIEW.name()}">[[${tt.Label}]]
         </label>
     </th:block>
 </div>
