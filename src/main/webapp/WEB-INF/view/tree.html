@@ -85,6 +85,19 @@
                     Object.assign({
                             dataSource: [localData]
                         }, modeConfig.VIEW));
+
+                function recNode(pre, crr) {
+                    if (crr.children.length == 0) {
+                        pre.push(crr.nodeId);
+                    } else {
+                        let arr = [];
+                        arr.push(crr.nodeId);
+                        arr.push(crr.children.reduce(recNode, []));
+                        pre.push(arr);
+                    }
+                    return pre;
+                };
+                console.log("tree.data::",tree.getAll().reduce(recNode, []));
                 tree.expandAll();
             }).fail((jqXHR) => {
                 console.log(jqXHR);
