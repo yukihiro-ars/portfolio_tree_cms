@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+        version="2.0">
+
+    <entity class="ars.yukihiro.portfolio.tree.cms.entity.NodeFormatRelationshipManagement">
+        <table name="node_format_relationship_management" schema="business" catalog="ars"/>
+        <id-class class="ars.yukihiro.portfolio.tree.cms.entity.NodeFormatRelationshipManagementPK"/>
+        <attributes>
+            <id name="formatType">
+                <column name="format_type"/>
+            </id>
+            <id name="nodeId">
+                <column name="node_id" length="32"/>
+            </id>
+            <basic name="viewableFlg">
+                <column name="viewable_flg"/>
+            </basic>
+            <basic name="sortOrder">
+                <column name="sort_order" nullable="false" precision="-1"/>
+            </basic>
+            <basic name="upDt">
+                <column name="up_dt" precision="-1"/>
+            </basic>
+            <basic name="upNm">
+                <column name="up_nm" length="20"/>
+            </basic>
+            <basic name="rgDt">
+                <column name="rg_dt" precision="-1"/>
+            </basic>
+            <basic name="rgNm">
+                <column name="rg_nm" length="20"/>
+            </basic>
+            <basic name="version">
+                <column name="version" precision="-1"/>
+            </basic>
+        </attributes>
+    </entity>
+</entity-mappings>

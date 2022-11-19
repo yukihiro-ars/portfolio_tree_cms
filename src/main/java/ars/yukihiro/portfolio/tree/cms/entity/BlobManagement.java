@@ -1,17 +1,15 @@
 package ars.yukihiro.portfolio.tree.cms.entity;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.Objects;
 
 @Entity
-@Table(name = "node_relationship", schema = "business", catalog = "ars")
-@IdClass(NodeRelationshipPK.class)
-public class NodeRelationship implements Serializable, IAuditEntity {
-    private int parentNodeId;
-    private int childNodeId;
-    private short sort;
+@Table(name = "blob_management", schema = "business", catalog = "ars")
+public class BlobManagement {
+    private String blobId;
+    private byte[] blobData;
     private Timestamp upDt;
     private String upNm;
     private Timestamp rgDt;
@@ -19,37 +17,27 @@ public class NodeRelationship implements Serializable, IAuditEntity {
     private long version;
 
     @Id
-    @Column(name = "parent_node_id", nullable = false)
-    public int getParentNodeId() {
-        return parentNodeId;
+    @Column(name = "blob_id", nullable = false, length = 32)
+    public String getBlobId() {
+        return blobId;
     }
 
-    public void setParentNodeId(int parentNodeId) {
-        this.parentNodeId = parentNodeId;
-    }
-
-    @Id
-    @Column(name = "child_node_id", nullable = false)
-    public int getChildNodeId() {
-        return childNodeId;
-    }
-
-    public void setChildNodeId(int childNodeId) {
-        this.childNodeId = childNodeId;
+    public void setBlobId(String blobId) {
+        this.blobId = blobId;
     }
 
     @Basic
-    @Column(name = "sort", nullable = false)
-    public short getSort() {
-        return sort;
+    @Column(name = "blob_data", nullable = false)
+    public byte[] getBlobData() {
+        return blobData;
     }
 
-    public void setSort(short sort) {
-        this.sort = sort;
+    public void setBlobData(byte[] blobData) {
+        this.blobData = blobData;
     }
 
     @Basic
-    @Column(name = "up_dt", nullable = true)
+    @Column(name = "up_dt", nullable = false)
     public Timestamp getUpDt() {
         return upDt;
     }
@@ -59,7 +47,7 @@ public class NodeRelationship implements Serializable, IAuditEntity {
     }
 
     @Basic
-    @Column(name = "up_nm", nullable = true, length = 20)
+    @Column(name = "up_nm", nullable = false, length = 20)
     public String getUpNm() {
         return upNm;
     }
@@ -69,7 +57,7 @@ public class NodeRelationship implements Serializable, IAuditEntity {
     }
 
     @Basic
-    @Column(name = "rg_dt", nullable = true)
+    @Column(name = "rg_dt", nullable = false)
     public Timestamp getRgDt() {
         return rgDt;
     }
@@ -79,7 +67,7 @@ public class NodeRelationship implements Serializable, IAuditEntity {
     }
 
     @Basic
-    @Column(name = "rg_nm", nullable = true, length = 20)
+    @Column(name = "rg_nm", nullable = false, length = 20)
     public String getRgNm() {
         return rgNm;
     }
@@ -89,7 +77,6 @@ public class NodeRelationship implements Serializable, IAuditEntity {
     }
 
     @Basic
-    @Version
     @Column(name = "version", nullable = false)
     public long getVersion() {
         return version;
@@ -103,11 +90,10 @@ public class NodeRelationship implements Serializable, IAuditEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        NodeRelationship that = (NodeRelationship) o;
-        return parentNodeId == that.parentNodeId &&
-                childNodeId == that.childNodeId &&
-                sort == that.sort &&
-                version == that.version &&
+        BlobManagement that = (BlobManagement) o;
+        return version == that.version &&
+                Objects.equals(blobId, that.blobId) &&
+                Arrays.equals(blobData, that.blobData) &&
                 Objects.equals(upDt, that.upDt) &&
                 Objects.equals(upNm, that.upNm) &&
                 Objects.equals(rgDt, that.rgDt) &&
@@ -116,6 +102,8 @@ public class NodeRelationship implements Serializable, IAuditEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(parentNodeId, childNodeId, sort, upDt, upNm, rgDt, rgNm, version);
+        int result = Objects.hash(blobId, upDt, upNm, rgDt, rgNm, version);
+        result = 31 * result + Arrays.hashCode(blobData);
+        return result;
     }
 }

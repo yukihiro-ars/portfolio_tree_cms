@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+        version="2.0">
+
+    <entity class="ars.yukihiro.portfolio.tree.cms.entity.NodeManagement">
+        <table name="node_management" schema="business" catalog="ars"/>
+        <attributes>
+            <id name="nodeId">
+                <column name="node_id" length="32"/>
+            </id>
+            <basic name="parentNodeId">
+                <column name="parent_node_id" length="32"/>
+            </basic>
+            <basic name="key">
+                <column name="key" length="128"/>
+            </basic>
+            <basic name="value">
+                <column name="value" nullable="false" length="256"/>
+            </basic>
+            <basic name="blobFlg">
+                <column name="blob_flg"/>
+            </basic>
+            <basic name="upDt">
+                <column name="up_dt" precision="-1"/>
+            </basic>
+            <basic name="upNm">
+                <column name="up_nm" length="20"/>
+            </basic>
+            <basic name="rgDt">
+                <column name="rg_dt" precision="-1"/>
+            </basic>
+            <basic name="rgNm">
+                <column name="rg_nm" length="20"/>
+            </basic>
+            <basic name="version">
+                <column name="version" precision="-1"/>
+            </basic>
+        </attributes>
+    </entity>
+</entity-mappings>
